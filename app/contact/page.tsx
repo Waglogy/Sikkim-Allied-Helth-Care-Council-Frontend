@@ -21,7 +21,7 @@ export default function ContactPage() {
                   Office Address
                 </div>
                 <div className="px-4 py-6 text-sm leading-relaxed">
-                  <p className="font-semibold mb-2">Sikkim Allied & Healthcare Council</p>
+                  <p className="font-semibold mb-2">Sikkim State Allied & Healthcare Council</p>
                   <p>Office Address Line 1</p>
                   <p>Office Address Line 2</p>
                   <p>Gangtok, Sikkim 737001</p>

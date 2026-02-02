@@ -63,7 +63,7 @@ export default function InformationPage() {
                 </div>
                 <div className="px-4 py-6 text-sm space-y-4">
                   <p className="leading-relaxed">
-                    The Sikkim Allied & Healthcare Council recognizes educational institutions offering courses in allied healthcare professions, subject to compliance with prescribed educational standards, infrastructure requirements, faculty qualifications, and curricular provisions.
+                    The Sikkim State Allied & Healthcare Council recognizes educational institutions offering courses in allied healthcare professions, subject to compliance with prescribed educational standards, infrastructure requirements, faculty qualifications, and curricular provisions.
                   </p>
 
                   <div className="bg-muted/30 border border-border p-4">

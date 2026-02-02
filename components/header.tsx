@@ -6,11 +6,25 @@ import Image from 'next/image'
 export function Header() {
   return (
     <header className="bg-background border-b border-border">
-      {/* Government Strip */}
-      <div className="bg-primary text-primary-foreground py-2 px-4 text-sm font-semibold">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div>Government of Sikkim</div>
-          <div className="text-xs">अ</div>
+      {/* Marquee Strip */}
+      <div className="bg-primary text-primary-foreground py-2 px-4 text-sm overflow-hidden">
+        <div className="flex items-center">
+          <marquee className="flex-1" behavior="scroll" direction="left" scrollamount="5">
+            <span className="font-semibold">
+              Official Website of Sikkim State Allied & Healthcare Council | 
+              📞 Contact: +91-3592-XXXXXX | 
+              ✉️ Email: info@sahealthcouncil.gov.in | 
+              📍 Office: Gangtok, Sikkim&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Official Website of Sikkim State Allied & Healthcare Council | 
+              📞 Contact: +91-3592-XXXXXX | 
+              ✉️ Email: info@sahealthcouncil.gov.in | 
+              📍 Office: Gangtok, Sikkim&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Official Website of Sikkim State Allied & Healthcare Council | 
+              📞 Contact: +91-3592-XXXXXX | 
+              ✉️ Email: info@sahealthcouncil.gov.in | 
+              📍 Office: Gangtok, Sikkim
+            </span>
+          </marquee>
         </div>
       </div>
 
@@ -21,7 +35,7 @@ export function Header() {
           <div className="w-16 h-16 flex-shrink-0">
             <Image 
               src="/LOGO.png" 
-              alt="Sikkim Allied & Healthcare Council Logo" 
+              alt="Sikkim State Allied & Healthcare Council Logo" 
               width={64} 
               height={64}
               className="w-full h-full object-contain"
@@ -30,7 +44,7 @@ export function Header() {
           
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-primary">
-              Sikkim Allied & Healthcare Council
+              Sikkim State Allied & Healthcare Council
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
               Statutory Body under Government of Sikkim

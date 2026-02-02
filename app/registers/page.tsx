@@ -8,11 +8,11 @@ export default function RegistersPage() {
   const [activeTab, setActiveTab] = useState('professional')
 
   const professionalData = [
-    { id: 'REG001', name: 'Dr. Rajesh Kumar', profession: 'Physiotherapist', qualification: 'BPT', registrationDate: '2023-01-15' },
-    { id: 'REG002', name: 'Ms. Priya Singh', profession: 'Nursing', qualification: 'GNM', registrationDate: '2023-02-20' },
-    { id: 'REG003', name: 'Mr. Anil Sharma', profession: 'Medical Technologist', qualification: 'BMT', registrationDate: '2023-03-10' },
-    { id: 'REG004', name: 'Dr. Neha Patel', profession: 'Radiographer', qualification: 'BSRT', registrationDate: '2023-04-05' },
-    { id: 'REG005', name: 'Ms. Deepika Nair', profession: 'Pharmacist', qualification: 'BPharm', registrationDate: '2023-05-12' },
+    { id: 'REG001', name: 'Bimal Nepal', profession: 'Radiologist', qualification: 'M.Sc. Radiology', registrationDate: '2023-01-15' },
+    { id: 'REG002', name: 'Ms. Yangchen Bhutia', profession: 'Nursing', qualification: 'GNM', registrationDate: '2023-02-20' },
+    { id: 'REG003', name: 'Mr. Prem Sharma', profession: 'Medical Technologist', qualification: 'BMT', registrationDate: '2023-03-10' },
+    { id: 'REG004', name: 'Dr. Kabita Rai', profession: 'Radiographer', qualification: 'BSRT', registrationDate: '2023-04-05' },
+    { id: 'REG005', name: 'Ms. Doma Lepcha', profession: 'Pharmacist', qualification: 'BPharm', registrationDate: '2023-05-12' },
   ]
 
   const institutionData = [

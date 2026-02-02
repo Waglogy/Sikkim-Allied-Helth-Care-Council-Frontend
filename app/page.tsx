@@ -87,7 +87,7 @@ export default function Home() {
               </div>
               <div className="flex-1">
                 <p className="text-sm leading-relaxed mb-3">
-                  The Sikkim Allied & Healthcare Council is committed to promoting excellence in allied healthcare professions. Our regulatory framework ensures that all practitioners maintain the highest standards of professional conduct and practice.
+                  The Sikkim State Allied & Healthcare Council is committed to promoting excellence in allied healthcare professions. Our regulatory framework ensures that all practitioners maintain the highest standards of professional conduct and practice.
                 </p>
                 <p className="text-sm leading-relaxed mb-3">
                   We are dedicated to fostering continuous professional development, ensuring patient safety, and maintaining the integrity of healthcare services in the state.
@@ -107,7 +107,7 @@ export default function Home() {
             </div>
             <div className="px-4 py-6">
               <p className="text-sm leading-relaxed mb-4">
-                The Sikkim Allied & Healthcare Council is a statutory regulatory body established under the Government of Sikkim to regulate, coordinate, and supervise allied healthcare professions in the state. The Council ensures that all registered professionals adhere to professional standards, ethical codes, and regulatory requirements.
+                The Sikkim State Allied & Healthcare Council is a statutory regulatory body established under the Government of Sikkim to regulate, coordinate, and supervise allied healthcare professions in the state. The Council ensures that all registered professionals adhere to professional standards, ethical codes, and regulatory requirements.
               </p>
               <p className="text-sm leading-relaxed mb-4">
                 The Council's primary functions include registration and regulation of allied healthcare professionals, recognition of educational institutions, conduct of professional examinations, and maintenance of professional standards and discipline.

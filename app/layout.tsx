@@ -8,9 +8,9 @@ const crimsonText = Crimson_Text({ weight: ['400', '600', '700'], subsets: ["lat
 const lora = Lora({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Sikkim Allied & Healthcare Council',
-  description: 'Official website of Sikkim Allied & Healthcare Council - Statutory Body under Government of Sikkim',
-  generator: 'Sikkim Allied & Healthcare Council',
+  title: 'Sikkim State Allied & Healthcare Council',
+  description: 'Official website of Sikkim State Allied & Healthcare Council - Statutory Body under Government of Sikkim',
+  generator: 'Sikkim State Allied & Healthcare Council',
   icons: {
     icon: [
       {

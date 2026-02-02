@@ -6,7 +6,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-base mb-3">About Council</h3>
             <p className="text-sm leading-relaxed">
-              Sikkim Allied & Healthcare Council is a statutory body established by the Government of Sikkim to regulate and promote allied healthcare professions.
+              Sikkim State Allied & Healthcare Council is a statutory body established by the Government of Sikkim to regulate and promote allied healthcare professions.
             </p>
           </div>
           <div>
@@ -32,10 +32,10 @@ export function Footer() {
 
         <div className="border-t border-primary-foreground/20 pt-4">
           <p className="text-xs text-center leading-relaxed">
-            <strong>Disclaimer:</strong> This is an official website of Sikkim Allied & Healthcare Council, a statutory body under the Government of Sikkim. The website is under development – Phase I. For queries, please contact the office directly.
+            <strong>Disclaimer:</strong> This is an official website of Sikkim State Allied & Healthcare Council, a statutory body under the Government of Sikkim. The website is under development – Phase I. For queries, please contact the office directly.
           </p>
           <p className="text-xs text-center mt-3">
-            © 2025 Sikkim Allied & Healthcare Council. All rights reserved.
+            © 2025 Sikkim State Allied & Healthcare Council. All rights reserved.
           </p>
           <p className="text-xs text-center mt-2">
             "Website is under development – Phase I"

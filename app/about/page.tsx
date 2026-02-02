@@ -16,14 +16,14 @@ export default function AboutPage() {
           {/* Main Content */}
           <div className="border border-border mb-8">
             <div className="bg-primary text-primary-foreground px-4 py-3 font-semibold border-b border-border">
-              About the Sikkim Allied & Healthcare Council
+              About the Sikkim State Allied & Healthcare Council
             </div>
 
             <div className="px-4 py-6 space-y-6 text-sm leading-relaxed">
               <section>
                 <h2 className="font-bold text-lg text-primary mb-3">Overview</h2>
                 <p>
-                  The Sikkim Allied & Healthcare Council (SAHC) is a statutory body established by the Government of Sikkim to regulate and oversee allied healthcare professions in the state. The Council operates under the statutory framework provided by the Allied and Healthcare Professions Act and related regulations.
+                  The Sikkim State Allied & Healthcare Council (SAHC) is a statutory body established by the Government of Sikkim to regulate and oversee allied healthcare professions in the state. The Council operates under the statutory framework provided by the Allied and Healthcare Professions Act and related regulations.
                 </p>
               </section>
 
