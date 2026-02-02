@@ -1,0 +1,46 @@
+import React from "react"
+import type { Metadata } from 'next'
+import { Crimson_Text, Lora } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
+import './globals.css'
+
+const crimsonText = Crimson_Text({ weight: ['400', '600', '700'], subsets: ["latin"] });
+const lora = Lora({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: 'Sikkim Allied & Healthcare Council',
+  description: 'Official website of Sikkim Allied & Healthcare Council - Statutory Body under Government of Sikkim',
+  generator: 'Sikkim Allied & Healthcare Council',
+  icons: {
+    icon: [
+      {
+        url: '/icon-light-32x32.png',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/icon-dark-32x32.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+      {
+        url: '/icon.svg',
+        type: 'image/svg+xml',
+      },
+    ],
+    apple: '/apple-icon.png',
+  },
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="en">
+      <body className={`${crimsonText.className} antialiased bg-background text-foreground`}>
+        {children}
+        <Analytics />
+      </body>
+    </html>
+  )
+}
