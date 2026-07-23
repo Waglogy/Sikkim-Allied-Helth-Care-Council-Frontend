@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 function EventCard({ e }: { e: CouncilEvent }) {
   return (
-    <div className="flex gap-5 rounded-xl border border-border bg-white p-6">
+    <div className="flex gap-4 rounded-xl border border-border bg-white p-4 sm:gap-5 sm:p-6">
       <div
-        className={`flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-lg ${
+        className={`flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-lg sm:h-20 sm:w-20 ${
           e.past ? "bg-navy/40" : "bg-navy"
         } text-white`}
       >
@@ -62,7 +62,7 @@ export default function EventsPage() {
         subtitle="Meetings, workshops and observances organised by the Council."
       />
 
-      <section className="mx-auto max-w-4xl px-6 py-16">
+      <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
         <p className="text-xs font-semibold uppercase tracking-widest text-blue">
           Calendar
         </p>

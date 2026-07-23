@@ -33,8 +33,8 @@ export default function AboutPage() {
       />
 
       {/* Intro */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-12 lg:grid-cols-3">
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="grid gap-10 lg:grid-cols-3 lg:gap-12">
           <div className="lg:col-span-2">
             <p className="text-xs font-semibold uppercase tracking-widest text-blue">
               Who we are
@@ -80,8 +80,8 @@ export default function AboutPage() {
 
       {/* Vision & Mission */}
       <section className="bg-muted">
-        <div className="mx-auto grid max-w-7xl gap-6 px-6 py-16 md:grid-cols-2">
-          <div className="rounded-xl border border-border bg-white p-8">
+        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-12 sm:px-6 sm:py-16 md:grid-cols-2">
+          <div className="rounded-xl border border-border bg-white p-6 sm:p-8">
             <h3 className="font-serif text-xl font-semibold text-navy">
               Our Vision
             </h3>
@@ -91,7 +91,7 @@ export default function AboutPage() {
               Sikkim.
             </p>
           </div>
-          <div className="rounded-xl border border-border bg-white p-8">
+          <div className="rounded-xl border border-border bg-white p-6 sm:p-8">
             <h3 className="font-serif text-xl font-semibold text-navy">
               Our Mission
             </h3>
@@ -105,7 +105,7 @@ export default function AboutPage() {
       </section>
 
       {/* Functions */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <p className="text-xs font-semibold uppercase tracking-widest text-blue">
           Mandate
         </p>

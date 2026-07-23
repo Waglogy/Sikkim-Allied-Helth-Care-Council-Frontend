@@ -100,16 +100,16 @@ export default function HeroCarousel() {
                 className="object-cover opacity-25"
               />
             )}
-            <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-24">
+            <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:gap-10 sm:px-6 sm:py-16 md:grid-cols-2 md:py-24">
               <div>
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
                   <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
                   {slide.eyebrow}
                 </span>
-                <h1 className="mt-5 font-serif text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
+                <h1 className="mt-5 font-serif text-2xl font-semibold leading-tight sm:text-4xl md:text-5xl">
                   {slide.title}
                 </h1>
-                <p className="mt-5 max-w-xl text-base leading-relaxed text-white/70">
+                <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/70 sm:mt-5 sm:text-base">
                   {slide.desc}
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
@@ -131,14 +131,14 @@ export default function HeroCarousel() {
               </div>
 
               <div className="flex justify-center md:justify-end">
-                <div className="relative flex h-64 w-64 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/15 sm:h-80 sm:w-80">
+                <div className="relative flex h-52 w-52 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/15 sm:h-80 sm:w-80">
                   <div className="absolute inset-4 rounded-full bg-white/5 ring-1 ring-white/10" />
                   <Image
                     src="/SSAHC-LOGO.png"
                     alt="Sikkim State Allied & Healthcare Council emblem"
                     width={240}
                     height={240}
-                    className="relative h-48 w-48 rounded-full bg-white p-3 sm:h-60 sm:w-60"
+                    className="relative h-40 w-40 rounded-full bg-white p-3 sm:h-60 sm:w-60"
                     priority={i === 0}
                   />
                 </div>

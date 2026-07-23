@@ -25,13 +25,13 @@ export default function NotificationsPage() {
         subtitle="Official circulars, notices and orders published by the Council. Click an item to view or download the document."
       />
 
-      <section className="mx-auto max-w-4xl px-6 py-16">
+      <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-white">
           {notifications.map((n) => (
             <a
               key={n.title}
               href={n.href ?? "#"}
-              className="group flex items-start gap-4 p-5 transition hover:bg-blue-50/60"
+              className="group flex items-start gap-3 p-4 transition hover:bg-blue-50/60 sm:gap-4 sm:p-5"
             >
               <span
                 className={`shrink-0 rounded-md px-2.5 py-1 text-[11px] font-semibold uppercase ${

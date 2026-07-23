@@ -20,7 +20,7 @@ const resources = [
 export default function Footer() {
   return (
     <footer id="contact" className="bg-navy text-white/80">
-      <div className="mx-auto max-w-7xl px-6 py-14">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="lg:col-span-1">
@@ -105,7 +105,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-5 text-xs text-white/50 sm:flex-row">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-5 text-center text-xs text-white/50 sm:flex-row sm:px-6 sm:text-left">
           <p>
             © {new Date().getFullYear()} Sikkim State Allied &amp; Healthcare
             Council. All rights reserved.

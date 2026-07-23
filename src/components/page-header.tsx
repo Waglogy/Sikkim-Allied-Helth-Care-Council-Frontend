@@ -20,7 +20,7 @@ export default function PageHeader({
         }}
       />
       <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-blue/20 blur-3xl" />
-      <div className="relative mx-auto max-w-7xl px-6 py-12 md:py-16">
+      <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 md:py-16">
         <nav className="flex items-center gap-2 text-xs text-white/60">
           <Link href="/" className="transition hover:text-white">
             Home
@@ -28,7 +28,7 @@ export default function PageHeader({
           <span>/</span>
           <span className="text-white/90">{crumb}</span>
         </nav>
-        <h1 className="mt-4 font-serif text-3xl font-semibold sm:text-4xl">
+        <h1 className="mt-4 font-serif text-2xl font-semibold sm:text-4xl">
           {title}
         </h1>
         {subtitle && (

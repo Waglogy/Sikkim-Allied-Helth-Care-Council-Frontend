@@ -124,7 +124,7 @@ export default function Home() {
       <HeroCarousel />
 
       {/* Services / focus areas */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <SectionHeading
           eyebrow="What we do"
           title="Services & Public Information"
@@ -167,7 +167,7 @@ export default function Home() {
 
       {/* About */}
       <section id="about" className="scroll-mt-28 bg-muted">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 md:grid-cols-2 md:py-20">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:gap-12 sm:px-6 sm:py-16 md:grid-cols-2 md:py-20">
           <div>
             <SectionHeading
               eyebrow="About the Council"
@@ -234,7 +234,7 @@ export default function Home() {
       </section>
 
       {/* Notifications + Events */}
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-5">
           {/* Notifications */}
           <div id="notifications" className="scroll-mt-28 lg:col-span-3">
@@ -309,7 +309,7 @@ export default function Home() {
 
       {/* Executive members */}
       <section id="members" className="scroll-mt-28 bg-muted">
-        <div className="mx-auto max-w-7xl px-6 py-16">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
           <SectionHeading
             eyebrow="Leadership"
             title="Executive Members"
@@ -335,7 +335,7 @@ export default function Home() {
       </section>
 
       {/* Departments */}
-      <section id="departments" className="scroll-mt-28 mx-auto max-w-7xl px-6 py-16">
+      <section id="departments" className="scroll-mt-28 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <SectionHeading
           eyebrow="Communication"
           title="Departments"
@@ -358,7 +358,7 @@ export default function Home() {
 
       {/* CTA */}
       <section className="bg-navy">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-12 text-center md:flex-row md:text-left">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 py-12 text-center sm:px-6 md:flex-row md:text-left">
           <div>
             <h2 className="font-serif text-2xl font-semibold text-white">
               Have a query or need public information?

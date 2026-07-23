@@ -17,12 +17,12 @@ export default function MembersPage() {
         subtitle="The office bearers and members who lead, represent and govern the Council."
       />
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {members.map((m) => (
             <div
               key={m.name}
-              className="flex flex-col items-center rounded-xl border border-border bg-white p-8 text-center"
+              className="flex flex-col items-center rounded-xl border border-border bg-white p-6 text-center sm:p-8"
             >
               <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue to-navy text-xl font-semibold text-white">
                 {m.initials}

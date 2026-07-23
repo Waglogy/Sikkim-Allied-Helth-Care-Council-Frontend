@@ -70,7 +70,7 @@ export default function ContactPage() {
         subtitle="Get in touch for registration, grievances or public information requests."
       />
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-5">
           {/* Info */}
           <div className="lg:col-span-2">
@@ -94,19 +94,19 @@ export default function ContactPage() {
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue">
                     <InfoIcon name={c.icon} />
                   </span>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-xs font-medium uppercase tracking-wide text-navy/50">
                       {c.label}
                     </p>
                     {c.href ? (
                       <a
                         href={c.href}
-                        className="text-sm font-medium text-navy transition hover:text-blue"
+                        className="text-sm font-medium text-navy transition hover:text-blue break-words"
                       >
                         {c.value}
                       </a>
                     ) : (
-                      <p className="text-sm font-medium text-navy">{c.value}</p>
+                      <p className="text-sm font-medium text-navy break-words">{c.value}</p>
                     )}
                   </div>
                 </div>
@@ -116,7 +116,7 @@ export default function ContactPage() {
 
           {/* Form */}
           <div className="lg:col-span-3">
-            <div className="rounded-xl border border-border bg-white p-8">
+            <div className="rounded-xl border border-border bg-white p-6 sm:p-8">
               <h2 className="font-serif text-xl font-semibold text-navy">
                 Send a Message
               </h2>
