@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import HeroCarousel from "@/components/hero-carousel";
 import {
   notifications as allNotifications,
@@ -123,6 +124,86 @@ export default function Home() {
       {/* Hero carousel */}
       <HeroCarousel />
 
+      {/* About */}
+      <section id="about" className="relative scroll-mt-28 overflow-hidden bg-muted">
+        {/* low-transparency background decoration */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, #0f2b46 1px, transparent 0)",
+            backgroundSize: "26px 26px",
+          }}
+        />
+        <div className="pointer-events-none absolute -left-24 top-1/3 h-72 w-72 rounded-full bg-blue/10 blur-3xl" />
+        <Image
+          src="/SSAHC-LOGO.png"
+          alt=""
+          aria-hidden
+          width={520}
+          height={520}
+          className="pointer-events-none absolute -right-20 -top-20 w-[24rem] opacity-[0.05]"
+        />
+
+        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+              About the Council
+            </p>
+            <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-navy sm:text-4xl">
+              Regulating Allied &amp; Healthcare Professions in Sikkim
+            </h2>
+            <span className="mx-auto mt-5 block h-1 w-16 rounded-full bg-blue" />
+            <p className="mt-6 text-sm leading-relaxed text-navy/70 sm:text-base">
+              The Sikkim State Allied &amp; Healthcare Council is the State-level
+              statutory body responsible for regulating recognised allied and
+              healthcare professions — maintaining standards of education,
+              registering qualified practitioners and upholding professional
+              ethics in the interest of public health.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 rounded-md bg-blue px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                Read More
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+
+          <div className="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-3">
+            {[
+              { stat: "2022", label: "Established" },
+              { stat: "10", label: "Categories" },
+              { stat: "57", label: "Professions" },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className="group relative overflow-hidden rounded-2xl border border-border bg-white/80 p-8 text-center backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-blue/40 hover:shadow-lg hover:shadow-blue/5"
+              >
+                <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue to-navy opacity-0 transition group-hover:opacity-100" />
+                <p className="font-serif text-4xl font-semibold text-blue sm:text-5xl">
+                  {s.stat}
+                </p>
+                <p className="mt-2 text-xs font-medium uppercase tracking-widest text-navy/60">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Services / focus areas */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <SectionHeading
@@ -162,74 +243,6 @@ export default function Home() {
               </span>
             </Link>
           ))}
-        </div>
-      </section>
-
-      {/* About */}
-      <section id="about" className="scroll-mt-28 bg-muted">
-        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:gap-12 sm:px-6 sm:py-16 md:grid-cols-2 md:py-20">
-          <div>
-            <SectionHeading
-              eyebrow="About the Council"
-              title="Regulating allied & healthcare professions in Sikkim"
-              align="left"
-            />
-            <p className="mt-6 text-sm leading-relaxed text-navy/70">
-              Established in 2022, the Sikkim State Allied &amp; Healthcare
-              Council is the statutory authority responsible for maintaining
-              standards of education and practice for allied and healthcare
-              professionals in the State. The Council registers qualified
-              practitioners, recognises institutions, and upholds a code of
-              professional ethics in the interest of public health.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {[
-                "Registration & licensing of allied healthcare professionals",
-                "Recognition of qualifications and institutions",
-                "Maintaining professional conduct and ethics",
-                "Protecting the interest of the public",
-              ].map((point) => (
-                <li key={point} className="flex items-start gap-3 text-sm text-navy/80">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    className="mt-0.5 shrink-0 text-blue"
-                  >
-                    <path
-                      d="M20 6 9 17l-5-5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { stat: "2022", label: "Year Established" },
-              { stat: "6+", label: "Departments" },
-              { stat: "50+", label: "Recognised Courses" },
-              { stat: "4", label: "Districts Served" },
-            ].map((s) => (
-              <div
-                key={s.label}
-                className="rounded-xl border border-border bg-white p-6 text-center"
-              >
-                <p className="font-serif text-3xl font-semibold text-blue">
-                  {s.stat}
-                </p>
-                <p className="mt-1 text-xs font-medium uppercase tracking-wide text-navy/60">
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
