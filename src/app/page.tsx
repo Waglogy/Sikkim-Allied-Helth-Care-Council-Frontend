@@ -4,55 +4,162 @@ import HeroCarousel from "@/components/hero-carousel";
 import {
   notifications as allNotifications,
   events as allEvents,
-  members as allMembers,
-  departments,
 } from "@/lib/data";
 
 /* ---------------------------------- data ---------------------------------- */
 
-const services = [
+const functions = [
   {
-    title: "Notifications",
-    desc: "Official circulars, notices and orders published by the Council.",
-    href: "/notifications",
-    icon: "bell",
+    title: "Professional Registration",
+    desc: "Registering and licensing qualified allied and healthcare professionals across the State.",
+    icon: "clipboard",
   },
   {
-    title: "Events",
-    desc: "Meetings, workshops and observances organised by the Council.",
-    href: "/events",
-    icon: "calendar",
+    title: "Education & Training Standards",
+    desc: "Setting and maintaining standards for allied healthcare education and training programmes.",
+    icon: "book",
   },
   {
-    title: "Council Information",
-    desc: "Mandate, functions and statutory role of the Council.",
-    href: "/about",
-    icon: "info",
+    title: "Institutional Assessment",
+    desc: "Assessing and monitoring institutions to ensure they meet the prescribed norms.",
+    icon: "search",
   },
   {
-    title: "Executive Members",
-    desc: "The office bearers and members steering the Council.",
-    href: "/members",
-    icon: "users",
+    title: "Professional Ethics",
+    desc: "Enforcing a code of conduct and ethical practice among registered professionals.",
+    icon: "shield",
   },
   {
-    title: "Departments",
-    desc: "Directory of departments and points of communication.",
-    href: "/#departments",
-    icon: "grid",
+    title: "Course Recognition",
+    desc: "Recognising qualifications and courses that meet the Council's requirements.",
+    icon: "award",
   },
   {
-    title: "Public Information",
-    desc: "RTI, downloads and access to public records.",
-    href: "/contact",
-    icon: "doc",
+    title: "Healthcare Standards",
+    desc: "Promoting quality and safety in allied healthcare services for the public.",
+    icon: "heart",
+  },
+];
+
+// Recognised professional categories — per the Schedule to the NCAHP Act, 2021.
+const categories = [
+  {
+    title: "Medical Laboratory & Life Sciences",
+    desc: "Laboratory science, diagnostic testing and life science professionals.",
+  },
+  {
+    title: "Trauma, Burn Care & Surgical / Anaesthesia Technology",
+    desc: "Emergency, trauma, burn care, surgical and anaesthesia support professionals.",
+  },
+  {
+    title: "Physiotherapy",
+    desc: "Professionals supporting movement, rehabilitation, functional recovery and physical health.",
+  },
+  {
+    title: "Nutrition Science",
+    desc: "Dietetics and nutrition professionals supporting health and disease prevention.",
+  },
+  {
+    title: "Ophthalmic Sciences",
+    desc: "Professionals working in eye care, vision and ophthalmic services.",
+  },
+  {
+    title: "Occupational Therapy",
+    desc: "Professionals supporting independence, participation and everyday activities.",
+  },
+  {
+    title: "Community Care, Behavioural Health & Other Professionals",
+    desc: "Community health, behavioural health, counselling and other care professionals.",
+  },
+  {
+    title: "Medical Radiology, Imaging & Therapeutic Technology",
+    desc: "Professionals working with medical imaging, radiology and therapeutic technologies.",
+  },
+  {
+    title:
+      "Medical Technologists, Physician Associate, Biomedical & Medical Equipment Technology",
+    desc: "Clinical technology, medical equipment, cardiovascular, pulmonary and renal technology professionals.",
+  },
+  {
+    title: "Health Information Management & Health Informatics",
+    desc: "Professionals managing health records, coding, information and healthcare documentation.",
+  },
+];
+
+// Messages from dignitaries — photos/names can be updated as provided.
+const messages = [
+  {
+    name: "Shri Prem Singh Tamang (Golay)",
+    role: "Hon'ble Chief Minister of Sikkim",
+    photo: "/hcm.svg",
+    initials: "CM",
+    excerpt:
+      "Our Government is committed to strengthening allied and healthcare services and upholding the highest standards of professional education and ethics across the State.",
+  },
+  {
+    name: "",
+    role: "Hon'ble Health Minister",
+    initials: "HM",
+    excerpt:
+      "The Council plays a vital role in ensuring quality, accountability and ethical practice among allied and healthcare professionals in Sikkim.",
+  },
+  {
+    name: "",
+    role: "Health Secretary",
+    initials: "HS",
+    excerpt:
+      "Through transparent regulation and recognition, we aim to build public trust and a skilled, well-regulated healthcare workforce.",
+  },
+  {
+    name: "",
+    role: "Principal Director, Health Sciences",
+    initials: "PD",
+    excerpt:
+      "We remain dedicated to advancing education, training and professional standards for allied healthcare across the State.",
+  },
+];
+
+// Council members — a representative preview; full roster lives on /council-members.
+const chairperson = {
+  name: "Mr. Ramesh Dahal",
+  role: "Chairperson",
+  council: "Sikkim State Allied & Healthcare Council",
+  detail: "Sr. Technical Officer, STNM Multispeciality Hospital, Gangtok",
+  initials: "RD",
+};
+
+const councilMembers = [
+  {
+    name: "Dr. Muralidhar V. Pai",
+    role: "Ex-Officio Member",
+    detail: "Dean, Sikkim Manipal Institute of Medical Sciences, Tadong, Gangtok",
+    initials: "MP",
+  },
+  {
+    name: "Dr. Nikita Joshi",
+    role: "Ex-Officio Member",
+    detail: "Principal, Sikkim Manipal College of Physiotherapy, Gangtok",
+    initials: "NJ",
+  },
+  {
+    name: "Ms. Chokie Lepcha",
+    role: "Member — Medical Laboratory & Life Sciences",
+    detail:
+      "Sr. Medical Lab Technologist, Department of Pathology, STNM Multispeciality Hospital, Gangtok",
+    initials: "CL",
+  },
+  {
+    name: "Dr. Binita Basnet (PT)",
+    role: "Member — Physiotherapy",
+    detail:
+      "Chief Physiotherapist cum HOD, Department of Physiotherapy, STNM Multispeciality Hospital, Gangtok",
+    initials: "BB",
   },
 ];
 
 // Homepage previews — full lists live on their dedicated pages.
 const notifications = allNotifications.slice(0, 4);
 const events = allEvents.filter((e) => !e.past).slice(0, 3);
-const members = allMembers.slice(0, 4);
 
 /* --------------------------------- icons ---------------------------------- */
 
@@ -104,6 +211,48 @@ function Icon({ name }: { name: string }) {
           <rect x="14" y="3" width="7" height="7" rx="1" />
           <rect x="14" y="14" width="7" height="7" rx="1" />
           <rect x="3" y="14" width="7" height="7" rx="1" />
+        </svg>
+      );
+    case "clipboard":
+      return (
+        <svg {...common}>
+          <path d="M9 2h6a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" />
+          <path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2" />
+          <path d="m9 14 2 2 4-4" />
+        </svg>
+      );
+    case "book":
+      return (
+        <svg {...common}>
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+        </svg>
+      );
+    case "search":
+      return (
+        <svg {...common}>
+          <circle cx="11" cy="11" r="7" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
+      );
+    case "shield":
+      return (
+        <svg {...common}>
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="m9 12 2 2 4-4" />
+        </svg>
+      );
+    case "award":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="8" r="6" />
+          <path d="M8.2 13.4 7 22l5-3 5 3-1.2-8.6" />
+        </svg>
+      );
+    case "heart":
+      return (
+        <svg {...common}>
+          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z" />
         </svg>
       );
     default:
@@ -204,45 +353,209 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services / focus areas */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
+      {/* What the Council does */}
+      <section
+        id="functions"
+        className="scroll-mt-28 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16"
+      >
         <SectionHeading
-          eyebrow="What we do"
-          title="Services & Public Information"
-          subtitle="Everything you need from the Council, organised in one place."
+          eyebrow="What the Council Does"
+          title="Core Functions & Responsibilities"
+          subtitle="The statutory roles the Council carries out to safeguard standards and public trust."
         />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s) => (
-            <Link
-              key={s.title}
-              href={s.href}
+          {functions.map((f) => (
+            <div
+              key={f.title}
               className="group rounded-xl border border-border bg-white p-6 transition hover:-translate-y-0.5 hover:border-blue/40 hover:shadow-lg hover:shadow-blue/5"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50 text-blue transition group-hover:bg-blue group-hover:text-white">
-                <Icon name={s.icon} />
+                <Icon name={f.icon} />
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-navy">
-                {s.title}
-              </h3>
+              <h3 className="mt-4 text-lg font-semibold text-navy">{f.title}</h3>
               <p className="mt-1.5 text-sm leading-relaxed text-navy/60">
-                {s.desc}
+                {f.desc}
               </p>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-blue">
-                Explore
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="transition group-hover:translate-x-0.5"
-                >
-                  <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" />
-                </svg>
-              </span>
-            </Link>
+            </div>
           ))}
+        </div>
+      </section>
+
+      {/* Recognised categories */}
+      <section id="professions" className="scroll-mt-28 bg-muted">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 md:py-20">
+          <SectionHeading
+            eyebrow="Recognised Categories"
+            title="Recognised Allied & Healthcare Professions"
+            subtitle="Explore the recognised allied and healthcare professions regulated under the National Commission for Allied and Healthcare Professions Act, 2021. The recognised professions are organised into 10 professional categories covering diagnostics, rehabilitation, clinical technology, community care and healthcare information services."
+          />
+          <div className="mt-10 grid gap-5 sm:grid-cols-2">
+            {categories.map((c, i) => (
+              <div
+                key={c.title}
+                className="group flex gap-4 rounded-xl border border-border bg-white p-6 transition hover:-translate-y-0.5 hover:border-blue/40 hover:shadow-lg hover:shadow-blue/5"
+              >
+                <span className="font-serif text-2xl font-semibold leading-none text-blue/40 transition group-hover:text-blue">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="text-base font-semibold text-navy">{c.title}</h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-navy/60">
+                    {c.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/recognised-categories"
+              className="inline-flex items-center gap-2 rounded-md bg-blue px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+            >
+              View All Categories &amp; Professions
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+          </div>
+          <p className="mt-6 text-center text-xs text-navy/50">
+            The category names above follow the Schedule to the NCAHP Act, 2021.
+          </p>
+        </div>
+      </section>
+
+      {/* Messages from dignitaries */}
+      <section
+        id="messages"
+        className="scroll-mt-28 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16"
+      >
+        <SectionHeading
+          eyebrow="Messages"
+          title="Messages from Dignitaries"
+          subtitle="Words of support and vision from those guiding healthcare in the State."
+        />
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
+          {messages.map((m) => (
+            <figure
+              key={m.role}
+              className="flex flex-col gap-4 rounded-2xl border border-border bg-white p-6 sm:flex-row"
+            >
+              <div className="shrink-0">
+                {m.photo ? (
+                  <Image
+                    src={m.photo}
+                    alt={m.name || m.role}
+                    width={80}
+                    height={80}
+                    className="h-20 w-20 rounded-full object-cover object-top ring-1 ring-border"
+                  />
+                ) : (
+                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue to-navy text-lg font-semibold text-white">
+                    {m.initials}
+                  </div>
+                )}
+              </div>
+              <div>
+                <svg
+                  width="26"
+                  height="26"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="text-blue/20"
+                  aria-hidden
+                >
+                  <path d="M7.2 6C4.9 7.4 3.5 9.7 3.5 12.6c0 .3 0 .6.1.9.5-.3 1.1-.5 1.8-.5 1.7 0 3 1.3 3 3s-1.3 3.1-3.1 3.1C3.2 19.1 2 17 2 14.3 2 10 4.4 6.7 8 5l-.8 1zm9 0C13.9 7.4 12.5 9.7 12.5 12.6c0 .3 0 .6.1.9.5-.3 1.1-.5 1.8-.5 1.7 0 3 1.3 3 3s-1.3 3.1-3.1 3.1c-2.1 0-3.3-2.1-3.3-4.8 0-4.3 2.4-7.6 6-9.3L16.2 6z" />
+                </svg>
+                <blockquote className="mt-1 text-sm leading-relaxed text-navy/70">
+                  {m.excerpt}
+                </blockquote>
+                <figcaption className="mt-4">
+                  {m.name && (
+                    <p className="font-serif text-base font-semibold text-navy">
+                      {m.name}
+                    </p>
+                  )}
+                  <p className="text-xs font-medium uppercase tracking-wide text-blue">
+                    {m.role}
+                  </p>
+                </figcaption>
+              </div>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      {/* Council members */}
+      <section id="members" className="scroll-mt-28 bg-muted">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 md:py-20">
+          <SectionHeading
+            eyebrow="Council Members"
+            title="Leadership of the Sikkim State Allied & Healthcare Council"
+            subtitle="The Sikkim State Allied & Healthcare Council is constituted under the National Commission for Allied and Healthcare Professions Act, 2021. The Council brings together representatives from the State Government, medical and healthcare institutions, and recognised allied and healthcare professional categories to support effective regulation and professional standards across the State."
+          />
+
+          {/* Featured — Chairperson */}
+          <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-navy text-white">
+            <div className="flex flex-col items-center gap-6 p-8 text-center sm:flex-row sm:text-left sm:p-10">
+              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-white/10 text-2xl font-semibold ring-1 ring-white/20">
+                {chairperson.initials}
+              </div>
+              <div>
+                <span className="inline-flex rounded-full bg-blue px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                  {chairperson.role}
+                </span>
+                <h3 className="mt-3 font-serif text-2xl font-semibold">
+                  {chairperson.name}
+                </h3>
+                <p className="mt-1 text-sm text-white/80">
+                  {chairperson.council}
+                </p>
+                <p className="mt-1 text-sm text-white/60">
+                  {chairperson.detail}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Representative members */}
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {councilMembers.map((m) => (
+              <div
+                key={m.name}
+                className="rounded-xl border border-border bg-white p-6 text-center"
+              >
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue to-navy text-lg font-semibold text-white">
+                  {m.initials}
+                </div>
+                <h3 className="mt-4 text-base font-semibold text-navy">
+                  {m.name}
+                </h3>
+                <p className="mt-1 text-xs font-medium text-blue">{m.role}</p>
+                <p className="mt-2 text-xs leading-relaxed text-navy/60">
+                  {m.detail}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/council-members"
+              className="inline-flex items-center gap-2 rounded-md border border-navy/20 px-6 py-3 text-sm font-semibold text-navy transition hover:bg-navy hover:text-white"
+            >
+              View All Council Members
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -317,55 +630,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Executive members */}
-      <section id="members" className="scroll-mt-28 bg-muted">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-          <SectionHeading
-            eyebrow="Leadership"
-            title="Executive Members"
-            subtitle="The office bearers who lead and represent the Council."
-          />
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {members.map((m) => (
-              <div
-                key={m.name}
-                className="rounded-xl border border-border bg-white p-6 text-center"
-              >
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue to-navy text-lg font-semibold text-white">
-                  {m.initials}
-                </div>
-                <h3 className="mt-4 text-base font-semibold text-navy">
-                  {m.name}
-                </h3>
-                <p className="mt-1 text-xs text-navy/60">{m.role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Departments */}
-      <section id="departments" className="scroll-mt-28 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-        <SectionHeading
-          eyebrow="Communication"
-          title="Departments"
-          subtitle="Reach the right department for your query or requirement."
-        />
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {departments.map((d, i) => (
-            <div
-              key={d}
-              className="flex items-center gap-4 rounded-xl border border-border bg-white p-5"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-sm font-semibold text-blue">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <p className="text-sm font-medium text-navy">{d}</p>
-            </div>
-          ))}
         </div>
       </section>
 

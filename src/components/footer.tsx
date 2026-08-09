@@ -3,9 +3,10 @@ import Link from "next/link";
 
 const quickLinks = [
   { label: "About the Council", href: "/about" },
+  { label: "Recognised Categories", href: "/recognised-categories" },
   { label: "Notifications", href: "/notifications" },
   { label: "Events", href: "/events" },
-  { label: "Executive Members", href: "/members" },
+  { label: "Council Members", href: "/council-members" },
   { label: "Contact", href: "/contact" },
 ];
 

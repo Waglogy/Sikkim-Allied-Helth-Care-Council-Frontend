@@ -4,17 +4,25 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const navLinks = [
+const primaryLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Notifications", href: "/notifications" },
   { label: "Events", href: "/events" },
-  { label: "Executive Members", href: "/members" },
+  { label: "Council Members", href: "/council-members" },
   { label: "Contact", href: "/contact" },
 ];
 
+// Shown under the hamburger "more" menu on desktop.
+const moreLinks = [
+  { label: "Recognised Categories", href: "/recognised-categories" },
+];
+
+const allLinks = [...primaryLinks, ...moreLinks];
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -63,7 +71,7 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 lg:flex">
-            {navLinks.map((link) => (
+            {primaryLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -72,6 +80,50 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+
+            {/* More menu */}
+            <div className="relative">
+              <button
+                onClick={() => setMoreOpen((v) => !v)}
+                aria-label="More menu"
+                aria-expanded={moreOpen}
+                className="inline-flex items-center justify-center rounded-md p-2 text-navy/80 transition hover:bg-blue-50 hover:text-blue"
+              >
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                >
+                  <path d="M4 7h16M4 12h16M4 17h16" />
+                </svg>
+              </button>
+              {moreOpen && (
+                <>
+                  <button
+                    aria-hidden
+                    tabIndex={-1}
+                    onClick={() => setMoreOpen(false)}
+                    className="fixed inset-0 z-40 cursor-default"
+                  />
+                  <div className="absolute right-0 z-50 mt-2 w-60 rounded-lg border border-border bg-white p-1 shadow-lg">
+                    {moreLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setMoreOpen(false)}
+                        className="block rounded-md px-3 py-2 text-sm font-medium text-navy/80 transition hover:bg-blue-50 hover:text-blue"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </nav>
 
           {/* Mobile toggle */}
@@ -103,7 +155,7 @@ export default function Navbar() {
         {open && (
           <nav className="border-t border-border bg-white px-4 py-3 lg:hidden">
             <div className="flex flex-col gap-1">
-              {navLinks.map((link) => (
+              {allLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}

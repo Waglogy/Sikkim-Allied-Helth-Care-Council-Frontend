@@ -41,7 +41,7 @@ const slides: Slide[] = [
     title: "Upholding Standards in Allied & Healthcare",
     desc: "The Council works to maintain standards in education, training and professional practice while promoting ethical conduct and quality healthcare services across Sikkim.",
     primary: { label: "Council Functions", href: "/#functions" },
-    secondary: { label: "Recognised Professions", href: "/#professions" },
+    secondary: { label: "Recognised Professions", href: "/recognised-categories" },
   },
 ];
 
