@@ -5,36 +5,43 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Slide = {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   desc: string;
   primary: { label: string; href: string };
   secondary?: { label: string; href: string };
   /** Optional background photo (place in /public). Falls back to brand gradient. */
   image?: string;
+  /** Optional portrait shown in the right column instead of the emblem. */
+  portrait?: { src: string; name: string; role: string };
 };
 
 const slides: Slide[] = [
   {
-    eyebrow: "Official Website · Autonomous Statutory Body",
     title: "Sikkim State Allied & Healthcare Council",
     desc: "Regulating, registering and advancing allied and healthcare professions across the State — ensuring quality education, ethical practice and public trust.",
     primary: { label: "View Notifications", href: "/#notifications" },
     secondary: { label: "About the Council", href: "/#about" },
+    image: "/coverimage.webp",
   },
   {
-    eyebrow: "Registration",
-    title: "Online Registration Portal is Now Open",
-    desc: "Allied and healthcare professionals can now register and renew their credentials online for the 2026–27 cycle.",
-    primary: { label: "Register Now", href: "/#notifications" },
-    secondary: { label: "View Guidelines", href: "/#notifications" },
+    eyebrow: "Message from the Chief Minister",
+    title: "“Building a healthier, self-reliant Sikkim.”",
+    desc: "Our Government is committed to strengthening allied and healthcare services across the State. Through the Council, we aim to uphold the highest standards of professional education, ethics and public care — for the well-being of every citizen of Sikkim.",
+    primary: { label: "Read Full Message", href: "/#about" },
+    secondary: { label: "About the Council", href: "/#about" },
+    portrait: {
+      src: "/hcm.svg",
+      name: "Shri Prem Singh Tamang (Golay)",
+      role: "Hon’ble Chief Minister of Sikkim",
+    },
   },
   {
-    eyebrow: "Recognition",
-    title: "Setting Standards for Healthcare Education",
-    desc: "Recognising institutions and qualifications to uphold the highest standards of allied healthcare education in Sikkim.",
-    primary: { label: "Explore Departments", href: "/#departments" },
-    secondary: { label: "Upcoming Events", href: "/#events" },
+    eyebrow: "Regulation · Standards · Professional Practice",
+    title: "Upholding Standards in Allied & Healthcare",
+    desc: "The Council works to maintain standards in education, training and professional practice while promoting ethical conduct and quality healthcare services across Sikkim.",
+    primary: { label: "Council Functions", href: "/#functions" },
+    secondary: { label: "Recognised Professions", href: "/#professions" },
   },
 ];
 
@@ -96,16 +103,19 @@ export default function HeroCarousel() {
                 src={slide.image}
                 alt=""
                 fill
+                sizes="100vw"
+                quality={70}
                 priority={i === 0}
                 className="object-cover opacity-25"
               />
             )}
-            <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:gap-10 sm:px-6 sm:py-16 md:grid-cols-2 md:py-24">
+            <div className="relative mx-auto grid min-h-[70vh] max-w-7xl items-center gap-8 px-4 py-20 sm:gap-10 sm:px-6 sm:py-28 md:grid-cols-2 md:py-36">
               <div>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
-                  <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-                  {slide.eyebrow}
-                </span>
+                {slide.eyebrow && (
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
+                    {slide.eyebrow}
+                  </span>
+                )}
                 <h1 className="mt-5 font-serif text-2xl font-semibold leading-tight sm:text-4xl md:text-5xl">
                   {slide.title}
                 </h1>
@@ -130,19 +140,45 @@ export default function HeroCarousel() {
                 </div>
               </div>
 
-              <div className="flex justify-center md:justify-end">
-                <div className="relative flex h-52 w-52 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/15 sm:h-80 sm:w-80">
-                  <div className="absolute inset-4 rounded-full bg-white/5 ring-1 ring-white/10" />
-                  <Image
-                    src="/SSAHC-LOGO.png"
-                    alt="Sikkim State Allied & Healthcare Council emblem"
-                    width={240}
-                    height={240}
-                    className="relative h-40 w-40 rounded-full bg-white p-3 sm:h-60 sm:w-60"
-                    priority={i === 0}
-                  />
+              {slide.portrait ? (
+                <div className="relative flex flex-col items-center md:block md:h-full">
+                  <div className="flex flex-col items-center gap-3 md:absolute md:bottom-0 md:right-0 md:items-end">
+                    <div className="relative">
+                      <Image
+                        src={slide.portrait.src}
+                        alt={slide.portrait.name}
+                        width={480}
+                        height={620}
+                        sizes="(max-width: 768px) 288px, 480px"
+                        className="h-auto w-64 object-contain object-bottom drop-shadow-2xl sm:w-80 md:w-[28.5rem]"
+                      />
+                      {/* soft fade so the image doesn't cut off sharply at the bottom */}
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy to-transparent" />
+                    </div>
+                    <div className="text-center md:text-right">
+                      <p className="font-serif text-lg font-semibold text-white">
+                        {slide.portrait.name}
+                      </p>
+                      <p className="text-sm text-white/70">{slide.portrait.role}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                i !== 0 && (
+                  <div className="flex justify-center md:justify-end">
+                    <div className="relative flex h-52 w-52 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/15 sm:h-80 sm:w-80">
+                      <div className="absolute inset-4 rounded-full bg-white/5 ring-1 ring-white/10" />
+                      <Image
+                        src="/SSAHC-LOGO.png"
+                        alt="Sikkim State Allied & Healthcare Council emblem"
+                        width={240}
+                        height={240}
+                        className="relative h-40 w-40 rounded-full bg-white p-3 sm:h-60 sm:w-60"
+                      />
+                    </div>
+                  </div>
+                )
+              )}
             </div>
           </div>
         ))}
