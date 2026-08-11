@@ -14,8 +14,8 @@ const contactInfo = [
     value: "Sikkim State Allied & Healthcare Council, Gangtok, Sikkim — 737101",
     icon: "pin",
   },
-  { label: "Email", value: "info@ssahc.gov.in", href: "mailto:info@ssahc.gov.in", icon: "mail" },
-  { label: "Phone", value: "+91 3592 000 000", href: "tel:+913592000000", icon: "phone" },
+  { label: "Email", value: "info@ssahc.org.in", href: "mailto:info@ssahc.org.in", icon: "mail" },
+  { label: "Phone", value: "+91 95206 16531", href: "tel:+919520616531", icon: "phone" },
   { label: "Office Hours", value: "Mon – Fri, 10:00 AM – 4:00 PM", icon: "clock" },
 ];
 

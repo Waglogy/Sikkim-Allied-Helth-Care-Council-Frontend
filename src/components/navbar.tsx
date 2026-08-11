@@ -32,10 +32,10 @@ export default function Navbar() {
           <p>An Autonomous Statutory Body · Established 2022</p>
           <div className="flex items-center gap-5">
             <a
-              href="mailto:info@ssahc.gov.in"
+              href="mailto:info@ssahc.org.in"
               className="transition hover:text-white"
             >
-              info@ssahc.gov.in
+              info@ssahc.org.in
             </a>
             <span className="h-3 w-px bg-white/25" />
             <Link href="/#contact" className="transition hover:text-white">

@@ -58,6 +58,32 @@ export default function HeroCarousel() {
     [count]
   );
 
+  // On mobile each slide has very different content height (a wide group photo
+  // vs. a tall portrait), so letting every slide stretch to the tallest one
+  // leaves dead space. Instead, size the track to the *active* slide. Desktop
+  // keeps its stretch behaviour (min-h + absolute portrait) untouched.
+  const slideRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [trackHeight, setTrackHeight] = useState<number>();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const sync = () => setIsMobile(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    const el = slideRefs.current[index];
+    if (!el) return;
+    const measure = () => setTrackHeight(el.offsetHeight);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [index, isMobile]);
+
   // Steady auto-advance — the timer is not tied to `index`, so it never resets
   // mid-cycle; it simply pauses on hover/focus.
   useEffect(() => {
@@ -93,95 +119,165 @@ export default function HeroCarousel() {
 
       {/* sliding track */}
       <div
-        className="flex transition-transform duration-700 ease-out"
-        style={{ transform: `translateX(-${index * 100}%)` }}
+        className="flex items-start transition-[height,transform] duration-700 ease-out sm:items-stretch"
+        style={{
+          transform: `translateX(-${index * 100}%)`,
+          height: isMobile ? trackHeight : undefined,
+        }}
       >
-        {slides.map((slide, i) => (
-          <div key={i} className="relative w-full shrink-0">
-            {slide.image && (
-              <Image
-                src={slide.image}
-                alt=""
-                fill
-                sizes="100vw"
-                quality={70}
-                priority={i === 0}
-                className="object-cover opacity-25"
-              />
-            )}
-            <div className="relative mx-auto grid min-h-[70vh] max-w-7xl items-center gap-8 px-4 py-20 sm:gap-10 sm:px-6 sm:py-28 md:grid-cols-2 md:py-36">
-              <div>
-                {slide.eyebrow && (
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
-                    {slide.eyebrow}
-                  </span>
-                )}
-                <h1 className="mt-5 font-serif text-2xl font-semibold leading-tight sm:text-4xl md:text-5xl">
-                  {slide.title}
-                </h1>
-                <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/70 sm:mt-5 sm:text-base">
-                  {slide.desc}
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <Link
-                    href={slide.primary.href}
-                    className="rounded-md bg-blue px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
-                  >
-                    {slide.primary.label}
-                  </Link>
-                  {slide.secondary && (
-                    <Link
-                      href={slide.secondary.href}
-                      className="rounded-md border border-white/25 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-                    >
-                      {slide.secondary.label}
-                    </Link>
-                  )}
-                </div>
-              </div>
-
-              {slide.portrait ? (
-                <div className="relative flex flex-col items-center md:block md:h-full">
-                  <div className="flex flex-col items-center gap-3 md:absolute md:bottom-0 md:right-0 md:items-end">
-                    <div className="relative">
-                      <Image
-                        src={slide.portrait.src}
-                        alt={slide.portrait.name}
-                        width={480}
-                        height={620}
-                        sizes="(max-width: 768px) 288px, 480px"
-                        className="h-auto w-64 object-contain object-bottom drop-shadow-2xl sm:w-80 md:w-[28.5rem]"
-                      />
-                      {/* soft fade so the image doesn't cut off sharply at the bottom */}
-                      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy to-transparent" />
-                    </div>
-                    <div className="text-center md:text-right">
-                      <p className="font-serif text-lg font-semibold text-white">
-                        {slide.portrait.name}
-                      </p>
-                      <p className="text-sm text-white/70">{slide.portrait.role}</p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                i !== 0 && (
-                  <div className="flex justify-center md:justify-end">
-                    <div className="relative flex h-52 w-52 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/15 sm:h-80 sm:w-80">
-                      <div className="absolute inset-4 rounded-full bg-white/5 ring-1 ring-white/10" />
-                      <Image
-                        src="/SSAHC-LOGO.png"
-                        alt="Sikkim State Allied & Healthcare Council emblem"
-                        width={240}
-                        height={240}
-                        className="relative h-40 w-40 rounded-full bg-white p-3 sm:h-60 sm:w-60"
-                      />
-                    </div>
-                  </div>
-                )
+        {slides.map((slide, i) => {
+          const eyebrowEl = slide.eyebrow ? (
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-[11px] font-medium text-white/80 sm:text-xs">
+              {slide.eyebrow}
+            </span>
+          ) : null;
+          const titleEl = (
+            <h1 className="mt-5 font-serif text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
+              {slide.title}
+            </h1>
+          );
+          const descEl = (
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/70 sm:mt-5 sm:text-base md:mx-0">
+              {slide.desc}
+            </p>
+          );
+          const ctasEl = (
+            <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center md:w-auto md:justify-start">
+              <Link
+                href={slide.primary.href}
+                className="rounded-md bg-blue px-5 py-3 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+              >
+                {slide.primary.label}
+              </Link>
+              {slide.secondary && (
+                <Link
+                  href={slide.secondary.href}
+                  className="rounded-md border border-white/25 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-white/10"
+                >
+                  {slide.secondary.label}
+                </Link>
               )}
             </div>
-          </div>
-        ))}
+          );
+          const portraitImageEl = slide.portrait ? (
+            <div className="relative">
+              <Image
+                src={slide.portrait.src}
+                alt={slide.portrait.name}
+                width={480}
+                height={620}
+                sizes="(max-width: 768px) 288px, 480px"
+                className="h-auto w-52 object-contain object-bottom drop-shadow-2xl sm:w-80 md:w-[28.5rem]"
+              />
+              {/* soft fade so the image doesn't cut off sharply at the bottom */}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy to-transparent" />
+            </div>
+          ) : null;
+          const captionEl = slide.portrait ? (
+            <div className="text-center md:text-right">
+              <p className="font-serif text-lg font-semibold text-white">
+                {slide.portrait.name}
+              </p>
+              <p className="text-sm text-white/70">{slide.portrait.role}</p>
+            </div>
+          ) : null;
+
+          return (
+            <div
+              key={i}
+              ref={(el) => {
+                slideRefs.current[i] = el;
+              }}
+              className="relative w-full shrink-0"
+            >
+              {slide.image && (
+                <Image
+                  src={slide.image}
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  quality={70}
+                  priority={i === 0}
+                  className="hidden object-cover object-[center_38%] opacity-25 sm:block"
+                />
+              )}
+              <div className="relative mx-auto grid min-h-[60vh] max-w-7xl content-center items-center gap-6 px-5 py-12 pb-20 sm:min-h-[70vh] sm:gap-10 sm:px-6 sm:py-28 md:grid-cols-2 md:py-36 md:pb-36">
+                {slide.portrait ? (
+                  <>
+                    {/* Mobile: text → portrait → buttons → name, centered */}
+                    <div className="flex flex-col items-center gap-6 text-center sm:hidden">
+                      <div>
+                        {eyebrowEl}
+                        {titleEl}
+                        {descEl}
+                      </div>
+                      <div className="flex flex-col items-center gap-3">
+                        {portraitImageEl}
+                        {captionEl}
+                      </div>
+                      {ctasEl}
+                    </div>
+
+                    {/* Tablet & up: original two-column layout */}
+                    <div className="hidden sm:contents">
+                      <div className="text-center md:text-left">
+                        {eyebrowEl}
+                        {titleEl}
+                        {descEl}
+                        {ctasEl}
+                      </div>
+                      <div className="relative flex flex-col items-center md:block md:h-full">
+                        <div className="flex flex-col items-center gap-3 md:absolute md:bottom-0 md:right-0 md:items-end">
+                          {portraitImageEl}
+                          {captionEl}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="text-center md:text-left">
+                      {eyebrowEl}
+                      {titleEl}
+                      {descEl}
+                      {ctasEl}
+                    </div>
+
+                    {/* On mobile the background photo is hidden; show it inline below the buttons instead. */}
+                    {slide.image && (
+                      <div className="sm:hidden">
+                        <Image
+                          src={slide.image}
+                          alt=""
+                          width={800}
+                          height={450}
+                          sizes="100vw"
+                          quality={70}
+                          className="h-auto w-full rounded-xl object-contain shadow-2xl shadow-black/50 ring-1 ring-white/10"
+                        />
+                      </div>
+                    )}
+
+                    {i !== 0 && (
+                      <div className="flex justify-center md:justify-end">
+                        <div className="relative flex h-52 w-52 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/15 sm:h-80 sm:w-80">
+                          <div className="absolute inset-4 rounded-full bg-white/5 ring-1 ring-white/10" />
+                          <Image
+                            src="/SSAHC-LOGO.png"
+                            alt="Sikkim State Allied & Healthcare Council emblem"
+                            width={240}
+                            height={240}
+                            className="relative h-40 w-40 rounded-full bg-white p-3 sm:h-60 sm:w-60"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* arrows */}

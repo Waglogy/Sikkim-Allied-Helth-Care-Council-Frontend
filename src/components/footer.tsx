@@ -90,13 +90,13 @@ export default function Footer() {
                 Gangtok, Sikkim — 737101
               </p>
               <p>
-                <a href="mailto:info@ssahc.gov.in" className="hover:text-white">
-                  info@ssahc.gov.in
+                <a href="mailto:info@ssahc.org.in" className="hover:text-white">
+                  info@ssahc.org.in
                 </a>
               </p>
               <p>
-                <a href="tel:+913592000000" className="hover:text-white">
-                  +91 3592 000 000
+                <a href="tel:+919520616531" className="hover:text-white">
+                  +91 95206 16531
                 </a>
               </p>
             </address>
@@ -106,12 +106,28 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-5 text-center text-xs text-white/50 sm:flex-row sm:px-6 sm:text-left">
-          <p>
-            © {new Date().getFullYear()} Sikkim State Allied &amp; Healthcare
-            Council. All rights reserved.
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-4 py-5 text-center text-xs text-white/50 sm:px-6">
+          <div className="flex flex-col items-center gap-x-2 gap-y-1 sm:flex-row">
+            <p>
+              © {new Date().getFullYear()} Sikkim State Allied &amp; Healthcare
+              Council. All rights reserved.
+            </p>
+            <span className="hidden text-white/25 sm:inline" aria-hidden="true">
+              •
+            </span>
+            <p className="text-white/60">An Autonomous Statutory Body</p>
+          </div>
+          <p className="text-white/40">
+            Designed &amp; developed by{" "}
+            <a
+              href="https://waglogy.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-white/70 underline-offset-2 transition hover:text-white hover:underline"
+            >
+              Waglogy
+            </a>
           </p>
-          <p>An Autonomous Statutory Body</p>
         </div>
       </div>
     </footer>
