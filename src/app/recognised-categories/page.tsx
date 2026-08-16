@@ -356,7 +356,7 @@ function GroupBlock({ group }: { group: Group }) {
       : "Recognised Professions");
   return (
     <div>
-      <h4 className="text-xs font-semibold uppercase tracking-widest text-blue">
+      <h4 className="text-xs font-semibold uppercase tracking-widest text-saffron">
         {label}
       </h4>
       {group.overview?.map((p) => (
@@ -453,7 +453,7 @@ export default function RecognisedCategoriesPage() {
       {/* Registration CTA */}
       <section className="bg-muted">
         <div className="mx-auto max-w-3xl px-4 py-12 text-center sm:px-6 sm:py-16">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+          <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
             Registration with SSAHC
           </p>
           <h2 className="mt-2 font-serif text-2xl font-semibold text-navy sm:text-3xl">

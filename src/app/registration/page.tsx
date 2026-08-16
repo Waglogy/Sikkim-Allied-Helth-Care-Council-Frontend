@@ -56,7 +56,7 @@ export default function RegistrationPage() {
         <div className="rounded-2xl border border-border bg-navy p-6 text-white sm:p-8">
           <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-blue-200">
+              <p className="text-xs font-semibold uppercase tracking-widest text-saffron-200">
                 National Portal · AHPR
               </p>
               <h2 className="mt-2 font-serif text-2xl font-semibold">
@@ -87,7 +87,7 @@ export default function RegistrationPage() {
         <div className="mt-10 grid gap-10 lg:grid-cols-5">
           {/* Instructions */}
           <div className="lg:col-span-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+            <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
               Instructions to Applicant
             </p>
             <h2 className="mt-2 font-serif text-2xl font-semibold text-navy">
@@ -111,7 +111,7 @@ export default function RegistrationPage() {
           {/* Documents required */}
           <div className="lg:col-span-2">
             <div className="rounded-xl border border-border bg-muted p-6 sm:p-7">
-              <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+              <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
                 Documents Required
               </p>
               <h2 className="mt-2 font-serif text-xl font-semibold text-navy">

@@ -306,7 +306,7 @@ function MemberCard({ m }: { m: Member }) {
         {initials(m.name)}
       </div>
       <h3 className="mt-4 text-base font-semibold text-navy">{m.name}</h3>
-      <p className="mt-1 text-xs font-medium uppercase tracking-wide text-blue">
+      <p className="mt-1 text-xs font-medium uppercase tracking-wide text-saffron">
         {m.role}
       </p>
       {m.lines && (
@@ -369,7 +369,7 @@ export default function CouncilMembersPage() {
             },
           ].map((d) => (
             <div key={d.label}>
-              <dt className="text-xs font-semibold uppercase tracking-wide text-blue">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-saffron">
                 {d.label}
               </dt>
               <dd className="mt-1 text-sm text-navy/70">{d.value}</dd>
@@ -459,7 +459,7 @@ export default function CouncilMembersPage() {
       {/* Council composition — informational */}
       <section className="bg-muted">
         <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+          <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
             Council Composition
           </p>
           <h2 className="mt-2 font-serif text-2xl font-semibold text-navy sm:text-3xl">

@@ -202,7 +202,7 @@ export default function Navbar() {
       {/* Notice ticker */}
       <div className="border-b border-border bg-blue-50">
         <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 md:px-6">
-          <span className="shrink-0 rounded-sm bg-blue px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
+          <span className="shrink-0 rounded-sm bg-saffron px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
             Latest
           </span>
           <div className="marquee-track overflow-hidden py-2">

@@ -9,6 +9,12 @@
   --blue-50: #eef5fb;
   --blue-100: #d9e9f6;
 
+  /* Accent — saffron, used sparingly to bring the palette to life */
+  --saffron: #ea7317;
+  --saffron-600: #cf610c;
+  --saffron-200: #f6b073;
+  --saffron-50: #fdf1e7;
+
   --background: #ffffff;
   --foreground: #0c2245;
   --muted: #f4f7fb;
@@ -24,6 +30,10 @@
   --color-blue-600: var(--blue-600);
   --color-blue-50: var(--blue-50);
   --color-blue-100: var(--blue-100);
+  --color-saffron: var(--saffron);
+  --color-saffron-600: var(--saffron-600);
+  --color-saffron-200: var(--saffron-200);
+  --color-saffron-50: var(--saffron-50);
   --color-muted: var(--muted);
   --color-border: var(--border);
 

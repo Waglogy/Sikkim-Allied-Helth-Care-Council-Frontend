@@ -39,7 +39,7 @@ export default function AboutPage() {
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-3 lg:gap-12">
           <div className="lg:col-span-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+            <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
               Who we are
             </p>
             <h2 className="mt-2 font-serif text-2xl font-semibold text-navy sm:text-3xl">
@@ -88,7 +88,7 @@ export default function AboutPage() {
       {/* Statutory basis */}
       <section className="bg-muted">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+          <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
             Statutory Basis
           </p>
           <h2 className="mt-2 font-serif text-2xl font-semibold text-navy sm:text-3xl">
@@ -153,7 +153,7 @@ export default function AboutPage() {
       {/* Functions */}
       <section className="bg-muted">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+          <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
             Mandate
           </p>
           <h2 className="mt-2 font-serif text-2xl font-semibold text-navy sm:text-3xl">

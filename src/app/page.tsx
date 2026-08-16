@@ -296,13 +296,13 @@ export default function Home() {
 
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+            <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
               About the Council
             </p>
             <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-navy sm:text-4xl">
               Regulating Allied &amp; Healthcare Professions in Sikkim
             </h2>
-            <span className="mx-auto mt-5 block h-1 w-16 rounded-full bg-blue" />
+            <span className="mx-auto mt-5 block h-1 w-16 rounded-full bg-saffron" />
             <p className="mt-6 text-sm leading-relaxed text-navy/70 sm:text-base">
               The Sikkim State Allied &amp; Healthcare Council is the State-level
               statutory body responsible for regulating recognised allied and
@@ -340,8 +340,8 @@ export default function Home() {
                 key={s.label}
                 className="group relative overflow-hidden rounded-2xl border border-border bg-white/80 p-8 text-center backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-blue/40 hover:shadow-lg hover:shadow-blue/5"
               >
-                <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue to-navy opacity-0 transition group-hover:opacity-100" />
-                <p className="font-serif text-4xl font-semibold text-blue sm:text-5xl">
+                <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-saffron to-blue opacity-0 transition group-hover:opacity-100" />
+                <p className="font-serif text-4xl font-semibold text-saffron sm:text-5xl">
                   {s.stat}
                 </p>
                 <p className="mt-2 text-xs font-medium uppercase tracking-widest text-navy/60">
@@ -395,7 +395,7 @@ export default function Home() {
                 key={c.title}
                 className="group flex gap-4 rounded-xl border border-border bg-white p-6 transition hover:-translate-y-0.5 hover:border-blue/40 hover:shadow-lg hover:shadow-blue/5"
               >
-                <span className="font-serif text-2xl font-semibold leading-none text-blue/40 transition group-hover:text-blue">
+                <span className="font-serif text-2xl font-semibold leading-none text-saffron/40 transition group-hover:text-saffron">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
@@ -475,7 +475,7 @@ export default function Home() {
                       {m.name}
                     </p>
                   )}
-                  <p className="text-xs font-medium uppercase tracking-wide text-blue">
+                  <p className="text-xs font-medium uppercase tracking-wide text-saffron">
                     {m.role}
                   </p>
                 </figcaption>
@@ -672,7 +672,7 @@ function SectionHeading({
 }) {
   return (
     <div className={align === "center" ? "mx-auto max-w-2xl text-center" : ""}>
-      <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+      <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
         {eyebrow}
       </p>
       <h2 className="mt-2 font-serif text-2xl font-semibold text-navy sm:text-3xl">

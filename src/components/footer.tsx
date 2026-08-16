@@ -13,6 +13,7 @@ const quickLinks = [
 
 const resources = [
   { label: "Registration", href: "/registration" },
+  
   { label: "Acts & Rules", href: "/about" },
   { label: "Grievance Redressal", href: "/grievances" },
   { label: "Downloads", href: "/notifications" },

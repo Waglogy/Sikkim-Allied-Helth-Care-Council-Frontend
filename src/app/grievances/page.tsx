@@ -39,7 +39,7 @@ export default function GrievancesPage() {
         <div className="grid gap-10 lg:grid-cols-5">
           {/* How it works */}
           <div className="lg:col-span-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+            <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
               Grievance Redressal
             </p>
             <h2 className="mt-2 font-serif text-2xl font-semibold text-navy">

@@ -63,7 +63,7 @@ export default function EventsPage() {
       />
 
       <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
-        <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+        <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
           Calendar
         </p>
         <h2 className="mt-2 font-serif text-2xl font-semibold text-navy">

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Lora } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+import SiteChrome from "@/components/site-chrome";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -36,9 +35,7 @@ export default function RootLayout({
       className={`${jakarta.variable} ${lora.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

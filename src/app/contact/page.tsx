@@ -74,7 +74,7 @@ export default function ContactPage() {
         <div className="grid gap-10 lg:grid-cols-5">
           {/* Info */}
           <div className="lg:col-span-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue">
+            <p className="text-xs font-semibold uppercase tracking-widest text-saffron">
               Reach us
             </p>
             <h2 className="mt-2 font-serif text-2xl font-semibold text-navy">
