@@ -16,6 +16,8 @@ const primaryLinks = [
 // Shown under the hamburger "more" menu on desktop.
 const moreLinks = [
   { label: "Recognised Categories", href: "/recognised-categories" },
+  { label: "Registration", href: "/registration" },
+  { label: "Public Grievance", href: "/grievances" },
 ];
 
 const allLinks = [...primaryLinks, ...moreLinks];
@@ -38,17 +40,37 @@ export default function Navbar() {
               info@ssahc.org.in
             </a>
             <span className="h-3 w-px bg-white/25" />
-            <Link href="/#contact" className="transition hover:text-white">
+            <Link href="/grievances" className="transition hover:text-white">
               Public Grievance
             </Link>
             <span className="h-3 w-px bg-white/25" />
-            <span>Gangtok, Sikkim</span>
+            <a
+              href="https://ncahp.abdm.gov.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 transition hover:text-white"
+            >
+              National Commission (NCAHP)
+              <svg
+                width="11"
+                height="11"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="M7 17 17 7M8 7h9v9" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>
 
       {/* Main bar */}
-      <div className="border-b border-border bg-white/95 backdrop-blur">
+      <div className="relative z-50 border-b border-border bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-6">
           <Link href="/" className="flex items-center gap-3">
             <Image
@@ -80,6 +102,13 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+
+            <Link
+              href="/registration"
+              className="ml-1 rounded-md bg-blue px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-blue-600"
+            >
+              Register
+            </Link>
 
             {/* More menu */}
             <div className="relative">

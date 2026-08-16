@@ -20,7 +20,7 @@ const slides: Slide[] = [
   {
     title: "Sikkim State Allied & Healthcare Council",
     desc: "Regulating, registering and advancing allied and healthcare professions across the State — ensuring quality education, ethical practice and public trust.",
-    primary: { label: "View Notifications", href: "/#notifications" },
+    primary: { label: "Register as a Professional", href: "/registration" },
     secondary: { label: "About the Council", href: "/#about" },
     image: "/coverimage.webp",
   },
@@ -42,6 +42,14 @@ const slides: Slide[] = [
     desc: "The Council works to maintain standards in education, training and professional practice while promoting ethical conduct and quality healthcare services across Sikkim.",
     primary: { label: "Council Functions", href: "/#functions" },
     secondary: { label: "Recognised Professions", href: "/recognised-categories" },
+    image: "/nsg-C7UJ1Pu_S_I-unsplash.jpg",
+  },
+  {
+    eyebrow: "Public Grievance Redressal",
+    title: "Have a grievance? We're here to help.",
+    desc: "Lodge a public grievance with the Council regarding registration, certificate verification, examinations or professional conduct. Every submission is reviewed and addressed.",
+    primary: { label: "Lodge a Grievance", href: "/grievances" },
+    secondary: { label: "Contact the Council", href: "/contact" },
   },
 ];
 
@@ -258,7 +266,7 @@ export default function HeroCarousel() {
                       </div>
                     )}
 
-                    {i !== 0 && (
+                    {i !== 0 && !slide.image && (
                       <div className="flex justify-center md:justify-end">
                         <div className="relative flex h-52 w-52 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/15 sm:h-80 sm:w-80">
                           <div className="absolute inset-4 rounded-full bg-white/5 ring-1 ring-white/10" />
