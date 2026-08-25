@@ -1,8 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { listEvents, listNotifications, listPublications } from "@/lib/api";
+
+/** Shown until the latest items load (or if the backend is unavailable). */
+const DEFAULT_TICKER = [
+  "Registration portal for Allied & Healthcare professionals is now open.",
+  "Notice: Verification of provisional certificates.",
+  "Council's 2nd Foundation Day to be observed on 12 Sep 2026.",
+];
 
 const primaryLinks = [
   { label: "Home", href: "/" },
@@ -25,6 +33,34 @@ const allLinks = [...primaryLinks, ...moreLinks];
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [ticker, setTicker] = useState<string[]>(DEFAULT_TICKER);
+
+  // Load the latest event / notification / publication titles for the ticker.
+  useEffect(() => {
+    let active = true;
+    Promise.all([
+      listNotifications().catch(() => []),
+      listEvents().catch(() => []),
+      listPublications().catch(() => []),
+    ]).then(([notifications, events, publications]) => {
+      if (!active) return;
+      const items = [
+        ...notifications.slice(0, 4).map((n) => n.title),
+        ...events.slice(0, 4).map((e) => {
+          const d = new Date(e.eventDate);
+          const when = Number.isNaN(d.getTime())
+            ? ""
+            : ` — ${d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}`;
+          return `${e.name}${when}`;
+        }),
+        ...publications.slice(0, 4).map((p) => p.title),
+      ].filter(Boolean);
+      if (items.length) setTicker(items);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -207,29 +243,15 @@ export default function Navbar() {
           </span>
           <div className="marquee-track overflow-hidden py-2">
             <div className="animate-marquee flex w-max gap-12 whitespace-nowrap text-xs text-navy/80">
-              <span>
-                Registration portal for Allied &amp; Healthcare professionals is
-                now open.
-              </span>
-              <span>
-                Notice: Verification of provisional certificates — last date 30
-                Aug 2026.
-              </span>
-              <span>
-                Council&apos;s 2nd Foundation Day to be observed on 12 Sep 2026.
-              </span>
+              {ticker.map((t, i) => (
+                <span key={`a-${i}`}>{t}</span>
+              ))}
               {/* duplicate for seamless loop */}
-              <span aria-hidden>
-                Registration portal for Allied &amp; Healthcare professionals is
-                now open.
-              </span>
-              <span aria-hidden>
-                Notice: Verification of provisional certificates — last date 30
-                Aug 2026.
-              </span>
-              <span aria-hidden>
-                Council&apos;s 2nd Foundation Day to be observed on 12 Sep 2026.
-              </span>
+              {ticker.map((t, i) => (
+                <span key={`b-${i}`} aria-hidden>
+                  {t}
+                </span>
+              ))}
             </div>
           </div>
         </div>

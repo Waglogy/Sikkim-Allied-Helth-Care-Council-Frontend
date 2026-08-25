@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useSubmitGrievance } from "@/hooks/use-admin-api";
 
 const categories = [
   "Registration & Licensing",
@@ -12,13 +12,22 @@ const categories = [
 ];
 
 export default function GrievanceForm() {
-  const [sent, setSent] = useState(false);
+  const { mutate, data, error, fieldErrors, loading, reset } = useSubmitGrievance();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // No backend yet — wire this to an API route / email service later.
-    setSent(true);
-    e.currentTarget.reset();
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const created = await mutate({
+      name: String(fd.get("name") || "").trim(),
+      email: String(fd.get("email") || "").trim(),
+      phone: String(fd.get("phone") || "").trim() || undefined,
+      registrationNumber: String(fd.get("registration") || "").trim() || undefined,
+      category: String(fd.get("category") || "").trim(),
+      subject: String(fd.get("subject") || "").trim(),
+      message: String(fd.get("message") || "").trim(),
+    });
+    if (created) form.reset();
   }
 
   const field =
@@ -28,22 +37,14 @@ export default function GrievanceForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1.5 block text-xs font-medium text-navy/70">
-            Full Name
-          </label>
+          <label className="mb-1.5 block text-xs font-medium text-navy/70">Full Name</label>
           <input required name="name" placeholder="Your name" className={field} />
+          {fieldErrors.name && <p className="mt-1 text-xs text-red-600">{fieldErrors.name}</p>}
         </div>
         <div>
-          <label className="mb-1.5 block text-xs font-medium text-navy/70">
-            Email
-          </label>
-          <input
-            required
-            type="email"
-            name="email"
-            placeholder="you@example.com"
-            className={field}
-          />
+          <label className="mb-1.5 block text-xs font-medium text-navy/70">Email</label>
+          <input required type="email" name="email" placeholder="you@example.com" className={field} />
+          {fieldErrors.email && <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p>}
         </div>
       </div>
 
@@ -52,29 +53,18 @@ export default function GrievanceForm() {
           <label className="mb-1.5 block text-xs font-medium text-navy/70">
             Phone <span className="text-navy/40">(optional)</span>
           </label>
-          <input
-            type="tel"
-            name="phone"
-            placeholder="+91 90000 00000"
-            className={field}
-          />
+          <input type="tel" name="phone" placeholder="+91 90000 00000" className={field} />
         </div>
         <div>
           <label className="mb-1.5 block text-xs font-medium text-navy/70">
             Registration No. <span className="text-navy/40">(if any)</span>
           </label>
-          <input
-            name="registration"
-            placeholder="SSAHC/…"
-            className={field}
-          />
+          <input name="registration" placeholder="SSAHC/…" className={field} />
         </div>
       </div>
 
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-navy/70">
-          Nature of Grievance
-        </label>
+        <label className="mb-1.5 block text-xs font-medium text-navy/70">Nature of Grievance</label>
         <select required name="category" defaultValue="" className={field}>
           <option value="" disabled>
             Select a category…
@@ -85,45 +75,41 @@ export default function GrievanceForm() {
             </option>
           ))}
         </select>
+        {fieldErrors.category && <p className="mt-1 text-xs text-red-600">{fieldErrors.category}</p>}
       </div>
 
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-navy/70">
-          Subject
-        </label>
-        <input
-          required
-          name="subject"
-          placeholder="Brief subject of your grievance"
-          className={field}
-        />
+        <label className="mb-1.5 block text-xs font-medium text-navy/70">Subject</label>
+        <input required name="subject" placeholder="Brief subject of your grievance" className={field} />
+        {fieldErrors.subject && <p className="mt-1 text-xs text-red-600">{fieldErrors.subject}</p>}
       </div>
 
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-navy/70">
-          Grievance Details
-        </label>
-        <textarea
-          required
-          name="message"
-          rows={5}
-          placeholder="Describe your grievance in detail…"
-          className={field}
-        />
+        <label className="mb-1.5 block text-xs font-medium text-navy/70">Grievance Details</label>
+        <textarea required name="message" rows={5} placeholder="Describe your grievance in detail…" className={field} />
+        {fieldErrors.message && <p className="mt-1 text-xs text-red-600">{fieldErrors.message}</p>}
       </div>
 
-      <button
-        type="submit"
-        className="rounded-md bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-600"
-      >
-        Submit Grievance
-      </button>
+      {error && (
+        <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-600">{error}</p>
+      )}
 
-      {sent && (
+      {data ? (
         <p className="rounded-md bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
           Thank you — your grievance has been recorded. The Council will review
           your submission and respond to you shortly.
+          <button type="button" onClick={reset} className="ml-2 underline">
+            Submit another
+          </button>
         </p>
+      ) : (
+        <button
+          type="submit"
+          disabled={loading}
+          className="rounded-md bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-600 disabled:opacity-60"
+        >
+          {loading ? "Submitting…" : "Submit Grievance"}
+        </button>
       )}
     </form>
   );

@@ -1,15 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useSubmitContact } from "@/hooks/use-admin-api";
 
 export default function ContactForm() {
-  const [sent, setSent] = useState(false);
+  const { mutate, data, error, fieldErrors, loading, reset } = useSubmitContact();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // No backend yet — wire this to an API route / email service later.
-    setSent(true);
-    e.currentTarget.reset();
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const created = await mutate({
+      name: String(fd.get("name") || "").trim(),
+      email: String(fd.get("email") || "").trim(),
+      subject: String(fd.get("subject") || "").trim(),
+      message: String(fd.get("message") || "").trim(),
+    });
+    if (created) form.reset();
   }
 
   const field =
@@ -19,60 +25,47 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1.5 block text-xs font-medium text-navy/70">
-            Full Name
-          </label>
+          <label className="mb-1.5 block text-xs font-medium text-navy/70">Full Name</label>
           <input required name="name" placeholder="Your name" className={field} />
+          {fieldErrors.name && <p className="mt-1 text-xs text-red-600">{fieldErrors.name}</p>}
         </div>
         <div>
-          <label className="mb-1.5 block text-xs font-medium text-navy/70">
-            Email
-          </label>
-          <input
-            required
-            type="email"
-            name="email"
-            placeholder="you@example.com"
-            className={field}
-          />
+          <label className="mb-1.5 block text-xs font-medium text-navy/70">Email</label>
+          <input required type="email" name="email" placeholder="you@example.com" className={field} />
+          {fieldErrors.email && <p className="mt-1 text-xs text-red-600">{fieldErrors.email}</p>}
         </div>
       </div>
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-navy/70">
-          Subject
-        </label>
-        <input
-          required
-          name="subject"
-          placeholder="How can we help?"
-          className={field}
-        />
+        <label className="mb-1.5 block text-xs font-medium text-navy/70">Subject</label>
+        <input required name="subject" placeholder="How can we help?" className={field} />
+        {fieldErrors.subject && <p className="mt-1 text-xs text-red-600">{fieldErrors.subject}</p>}
       </div>
       <div>
-        <label className="mb-1.5 block text-xs font-medium text-navy/70">
-          Message
-        </label>
-        <textarea
-          required
-          name="message"
-          rows={5}
-          placeholder="Write your message…"
-          className={field}
-        />
+        <label className="mb-1.5 block text-xs font-medium text-navy/70">Message</label>
+        <textarea required name="message" rows={5} placeholder="Write your message…" className={field} />
+        {fieldErrors.message && <p className="mt-1 text-xs text-red-600">{fieldErrors.message}</p>}
       </div>
 
-      <button
-        type="submit"
-        className="rounded-md bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-600"
-      >
-        Send Message
-      </button>
+      {error && (
+        <p className="rounded-md bg-red-50 px-4 py-3 text-sm text-red-600">{error}</p>
+      )}
 
-      {sent && (
+      {data ? (
         <p className="rounded-md bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-          Thank you — your message has been recorded. The Council will respond
-          to your query shortly.
+          Thank you — your message has been recorded. The Council will respond to
+          your query shortly.
+          <button type="button" onClick={reset} className="ml-2 underline">
+            Send another
+          </button>
         </p>
+      ) : (
+        <button
+          type="submit"
+          disabled={loading}
+          className="rounded-md bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-600 disabled:opacity-60"
+        >
+          {loading ? "Sending…" : "Send Message"}
+        </button>
       )}
     </form>
   );

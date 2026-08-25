@@ -4,31 +4,29 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { signIn } from "@/lib/use-admin-store";
+import { useLogin } from "@/hooks/use-admin-api";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [showPw, setShowPw] = useState(false);
-  const [error, setError] = useState("");
+  const { mutate, loading, error } = useLogin();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const email = String(form.get("email") || "").trim();
     const password = String(form.get("password") || "");
 
-    // No backend yet — accept any non-empty credentials as a placeholder.
-    // Replace this with a real authentication call later.
-    if (!email || !password) {
-      setError("Please enter your email and password.");
-      return;
+    // POST /api/auth/login — on success persist the JWT + admin, then enter.
+    const result = await mutate({ email, password });
+    if (result) {
+      signIn(result.token, result.admin);
+      router.replace("/admin");
     }
-    setError("");
-    signIn();
-    router.replace("/admin");
   }
 
   const field =
-    "w-full rounded-md border border-border bg-white px-3.5 py-2.5 text-sm text-navy outline-none transition placeholder:text-navy/40 focus:border-blue focus:ring-2 focus:ring-blue/20";
+    "ui-input";
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-navy px-4 py-12 text-white">
@@ -67,7 +65,7 @@ export default function AdminLoginPage() {
         <div className="rounded-2xl border border-white/10 bg-white p-6 text-navy shadow-2xl shadow-black/30 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-navy/70">
+              <label className="ui-label">
                 Email
               </label>
               <input
@@ -81,7 +79,7 @@ export default function AdminLoginPage() {
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-navy/70">
+              <label className="ui-label">
                 Password
               </label>
               <div className="relative">
@@ -131,9 +129,10 @@ export default function AdminLoginPage() {
 
             <button
               type="submit"
-              className="w-full rounded-md bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-600"
+              disabled={loading}
+              className="ui-btn ui-btn-primary w-full"
             >
-              Sign In
+              {loading ? "Signing in…" : "Sign In"}
             </button>
           </form>
         </div>

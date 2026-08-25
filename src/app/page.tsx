@@ -2,9 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import HeroCarousel from "@/components/hero-carousel";
 import {
-  notifications as allNotifications,
-  events as allEvents,
-} from "@/lib/data";
+  fetchEvents,
+  fetchNotifications,
+  fetchPublishedMessages,
+  eventDateParts,
+  shortDate,
+} from "@/lib/public-api";
+
+// Rebuild the page at most once a minute (ISR) — fast serves, fresh within 60s.
+export const revalidate = 60;
 
 /* ---------------------------------- data ---------------------------------- */
 
@@ -86,38 +92,20 @@ const categories = [
   },
 ];
 
-// Messages from dignitaries — photos/names can be updated as provided.
-const messages = [
-  {
-    name: "Shri Prem Singh Tamang (Golay)",
-    role: "Hon'ble Chief Minister of Sikkim",
-    photo: "/hcm.svg",
-    initials: "CM",
-    excerpt:
-      "Our Government is committed to strengthening allied and healthcare services and upholding the highest standards of professional education and ethics across the State.",
-  },
-  {
-    name: "",
-    role: "Hon'ble Health Minister",
-    initials: "HM",
-    excerpt:
-      "The Council plays a vital role in ensuring quality, accountability and ethical practice among allied and healthcare professionals in Sikkim.",
-  },
-  {
-    name: "",
-    role: "Health Secretary",
-    initials: "HS",
-    excerpt:
-      "Through transparent regulation and recognition, we aim to build public trust and a skilled, well-regulated healthcare workforce.",
-  },
-  {
-    name: "",
-    role: "Principal Director, Health Sciences",
-    initials: "PD",
-    excerpt:
-      "We remain dedicated to advancing education, training and professional standards for allied healthcare across the State.",
-  },
-];
+/** Two-letter initials from a name/title, for the avatar fallback. */
+function messageInitials(title: string) {
+  return (
+    title
+      .replace(/\(.*?\)/g, "")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((w) => w[0])
+      .join("")
+      .toUpperCase() || "•"
+  );
+}
 
 // Council members — a representative preview; full roster lives on /council-members.
 const chairperson = {
@@ -157,9 +145,6 @@ const councilMembers = [
   },
 ];
 
-// Homepage previews — full lists live on their dedicated pages.
-const notifications = allNotifications.slice(0, 4);
-const events = allEvents.filter((e) => !e.past).slice(0, 3);
 
 /* --------------------------------- icons ---------------------------------- */
 
@@ -267,7 +252,20 @@ function Icon({ name }: { name: string }) {
 
 /* ---------------------------------- page ---------------------------------- */
 
-export default function Home() {
+export default async function Home() {
+  // Homepage previews — full lists live on their dedicated pages.
+  const [allEvents, allNotifications, messages] = await Promise.all([
+    fetchEvents(),
+    fetchNotifications(),
+    fetchPublishedMessages(),
+  ]);
+  const notifications = allNotifications.slice(0, 4);
+  const events = allEvents
+    .map((e) => ({ e, meta: eventDateParts(e.eventDate) }))
+    .filter((x) => !x.meta.isPast)
+    .sort((a, b) => a.meta.ms - b.meta.ms)
+    .slice(0, 3);
+
   return (
     <>
       {/* Hero carousel */}
@@ -425,65 +423,63 @@ export default function Home() {
       </section>
 
       {/* Messages from dignitaries */}
-      <section
-        id="messages"
-        className="scroll-mt-28 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16"
-      >
-        <SectionHeading
-          eyebrow="Messages"
-          title="Messages from Dignitaries"
-          subtitle="Words of support and vision from those guiding healthcare in the State."
-        />
-        <div className="mt-10 grid gap-6 sm:grid-cols-2">
-          {messages.map((m) => (
-            <figure
-              key={m.role}
-              className="flex flex-col gap-4 rounded-2xl border border-border bg-white p-6 sm:flex-row"
-            >
-              <div className="shrink-0">
-                {m.photo ? (
-                  <Image
-                    src={m.photo}
-                    alt={m.name || m.role}
-                    width={80}
-                    height={80}
-                    className="h-20 w-20 rounded-full object-cover object-top ring-1 ring-border"
-                  />
-                ) : (
-                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue to-navy text-lg font-semibold text-white">
-                    {m.initials}
-                  </div>
-                )}
-              </div>
-              <div>
-                <svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="text-blue/20"
-                  aria-hidden
-                >
-                  <path d="M7.2 6C4.9 7.4 3.5 9.7 3.5 12.6c0 .3 0 .6.1.9.5-.3 1.1-.5 1.8-.5 1.7 0 3 1.3 3 3s-1.3 3.1-3.1 3.1C3.2 19.1 2 17 2 14.3 2 10 4.4 6.7 8 5l-.8 1zm9 0C13.9 7.4 12.5 9.7 12.5 12.6c0 .3 0 .6.1.9.5-.3 1.1-.5 1.8-.5 1.7 0 3 1.3 3 3s-1.3 3.1-3.1 3.1c-2.1 0-3.3-2.1-3.3-4.8 0-4.3 2.4-7.6 6-9.3L16.2 6z" />
-                </svg>
-                <blockquote className="mt-1 text-sm leading-relaxed text-navy/70">
-                  {m.excerpt}
-                </blockquote>
-                <figcaption className="mt-4">
-                  {m.name && (
-                    <p className="font-serif text-base font-semibold text-navy">
-                      {m.name}
-                    </p>
+      {messages.length > 0 && (
+        <section
+          id="messages"
+          className="scroll-mt-28 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16"
+        >
+          <SectionHeading
+            eyebrow="Messages"
+            title="Messages from Dignitaries"
+            subtitle="Words of support and vision from those guiding healthcare in the State."
+          />
+          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+            {messages.map((m) => (
+              <figure
+                key={m.uuid}
+                className="flex flex-col gap-4 rounded-2xl border border-border bg-white p-6 sm:flex-row"
+              >
+                <div className="shrink-0">
+                  {m.photo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={m.photo}
+                      alt={m.title}
+                      className="h-20 w-20 rounded-full object-cover object-top ring-1 ring-border"
+                    />
+                  ) : (
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue to-navy text-lg font-semibold text-white">
+                      {messageInitials(m.title)}
+                    </div>
                   )}
-                  <p className="text-xs font-medium uppercase tracking-wide text-saffron">
-                    {m.role}
-                  </p>
-                </figcaption>
-              </div>
-            </figure>
-          ))}
-        </div>
-      </section>
+                </div>
+                <div>
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="text-blue/20"
+                    aria-hidden
+                  >
+                    <path d="M7.2 6C4.9 7.4 3.5 9.7 3.5 12.6c0 .3 0 .6.1.9.5-.3 1.1-.5 1.8-.5 1.7 0 3 1.3 3 3s-1.3 3.1-3.1 3.1C3.2 19.1 2 17 2 14.3 2 10 4.4 6.7 8 5l-.8 1zm9 0C13.9 7.4 12.5 9.7 12.5 12.6c0 .3 0 .6.1.9.5-.3 1.1-.5 1.8-.5 1.7 0 3 1.3 3 3s-1.3 3.1-3.1 3.1c-2.1 0-3.3-2.1-3.3-4.8 0-4.3 2.4-7.6 6-9.3L16.2 6z" />
+                  </svg>
+                  {m.description && (
+                    <blockquote className="mt-1 text-sm leading-relaxed text-navy/70">
+                      {m.description}
+                    </blockquote>
+                  )}
+                  <figcaption className="mt-4">
+                    <p className="font-serif text-base font-semibold text-navy">
+                      {m.title}
+                    </p>
+                  </figcaption>
+                </div>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Council members */}
       <section id="members" className="scroll-mt-28 bg-muted">
@@ -580,23 +576,27 @@ export default function Home() {
             <div className="mt-8 divide-y divide-border rounded-xl border border-border bg-white">
               {notifications.map((n) => (
                 <Link
-                  key={n.title}
+                  key={n.uuid}
                   href="/notifications"
                   className="group flex items-start gap-4 p-5 transition hover:bg-blue-50/60"
                 >
-                  <div className="shrink-0 rounded-md bg-blue-50 px-2.5 py-1 text-center">
-                    <p className="text-[11px] font-semibold uppercase text-blue">
-                      {n.tag}
-                    </p>
-                  </div>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <path d="M14 2v6h6" />
+                    </svg>
+                  </span>
                   <div>
                     <p className="text-sm font-medium text-navy group-hover:text-blue">
                       {n.title}
                     </p>
-                    <p className="mt-1 text-xs text-navy/50">{n.date}</p>
+                    <p className="mt-1 text-xs text-navy/50">{shortDate(n.createdAt)}</p>
                   </div>
                 </Link>
               ))}
+              {notifications.length === 0 && (
+                <p className="p-5 text-sm text-navy/50">No notifications yet.</p>
+              )}
             </div>
           </div>
 
@@ -608,26 +608,33 @@ export default function Home() {
               align="left"
             />
             <div className="mt-8 space-y-4">
-              {events.map((e) => (
+              {events.map(({ e, meta }) => (
                 <div
-                  key={e.title}
+                  key={e.uuid}
                   className="flex gap-4 rounded-xl border border-border bg-white p-5"
                 >
                   <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-lg bg-navy text-white">
                     <span className="text-xl font-semibold leading-none">
-                      {e.day}
+                      {meta.day}
                     </span>
                     <span className="mt-0.5 text-xs uppercase tracking-wide text-white/70">
-                      {e.month}
+                      {meta.month}
                     </span>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-navy">{e.title}</p>
-                    <p className="mt-1 text-xs text-navy/60">{e.place}</p>
-                    <p className="mt-0.5 text-xs text-blue">{e.time}</p>
+                    <p className="text-sm font-semibold text-navy">{e.name}</p>
+                    {e.description && (
+                      <p className="mt-1 line-clamp-1 text-xs text-navy/60">{e.description}</p>
+                    )}
+                    <p className="mt-0.5 text-xs text-blue">{meta.time}</p>
                   </div>
                 </div>
               ))}
+              {events.length === 0 && (
+                <p className="rounded-xl border border-border bg-muted/40 p-5 text-sm text-navy/50">
+                  No upcoming events.
+                </p>
+              )}
             </div>
           </div>
         </div>
