@@ -4,6 +4,7 @@ import { useState } from "react";
 import CreateMessageForm from "@/components/admin/create-message-form";
 import { useMessages, useDeleteMessage } from "@/hooks/use-admin-api";
 import type { MessageResponse } from "@/lib/api";
+import { fileUrl } from "@/lib/public-api";
 import {
   Panel,
   EmptyOrList,
@@ -57,7 +58,7 @@ export default function MessagePanel() {
             <div key={m.uuid} className="ui-card flex gap-3 p-4 transition hover:border-blue/30 hover:shadow-md">
               {m.photo && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={m.photo} alt="" className="h-14 w-14 shrink-0 rounded-lg object-cover ring-1 ring-border" />
+                <img src={fileUrl(m.photo)} alt="" className="h-14 w-14 shrink-0 rounded-lg object-cover ring-1 ring-border" />
               )}
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-3">

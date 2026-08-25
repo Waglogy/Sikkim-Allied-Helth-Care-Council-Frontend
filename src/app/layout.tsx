@@ -34,7 +34,10 @@ export default function RootLayout({
       lang="en"
       className={`${jakarta.variable} ${lora.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body
+        className="min-h-full flex flex-col bg-background text-foreground"
+        suppressHydrationWarning
+      >
         <SiteChrome>{children}</SiteChrome>
       </body>
     </html>

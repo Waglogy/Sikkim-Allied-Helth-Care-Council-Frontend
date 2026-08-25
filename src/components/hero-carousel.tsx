@@ -6,10 +6,12 @@ import Link from "next/link";
 
 type Slide = {
   eyebrow?: string;
-  title: string;
+  title?: string;
+  /** Optional emphasised lead line shown above the description. */
+  lead?: string;
   desc: string;
-  primary: { label: string; href: string };
-  secondary?: { label: string; href: string };
+  primary: { label: string; href: string; download?: boolean };
+  secondary?: { label: string; href: string; download?: boolean };
   /** Optional background photo (place in /public). Falls back to brand gradient. */
   image?: string;
   /** Optional portrait shown in the right column instead of the emblem. */
@@ -26,9 +28,9 @@ const slides: Slide[] = [
   },
   {
     eyebrow: "Message from the Chief Minister",
-    title: "“Building a healthier, self-reliant Sikkim.”",
-    desc: "Our Government is committed to strengthening allied and healthcare services across the State. Through the Council, we aim to uphold the highest standards of professional education, ethics and public care — for the well-being of every citizen of Sikkim.",
-    primary: { label: "Read Full Message", href: "/#about" },
+    lead: "It gives me immense pleasure to congratulate the Sikkim State Allied & Healthcare Council (SSAHC) on the launch of its official website.",
+    desc: "The launch of this dedicated portal is a timely and commendable initiative. By providing a centralized platform for registration, policy dissemination, and professional guidance, it is heartening to know that the Council is ensuring that our healthcare workforce remains globally competitive while remaining locally rooted in the spirit of service.",
+    primary: { label: "Read Full Message", href: "/HCM%20Message.pdf", download: true },
     secondary: { label: "About the Council", href: "/#about" },
     portrait: {
       src: "/hcm.svg",
@@ -139,11 +141,16 @@ export default function HeroCarousel() {
               {slide.eyebrow}
             </span>
           ) : null;
-          const titleEl = (
+          const titleEl = slide.title ? (
             <h1 className="mt-5 font-serif text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
               {slide.title}
             </h1>
-          );
+          ) : null;
+          const leadEl = slide.lead ? (
+            <p className="mx-auto mt-5 max-w-xl text-lg font-bold leading-snug text-white sm:text-xl md:mx-0">
+              {slide.lead}
+            </p>
+          ) : null;
           const descEl = (
             <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/70 sm:mt-5 sm:text-base md:mx-0">
               {slide.desc}
@@ -151,12 +158,22 @@ export default function HeroCarousel() {
           );
           const ctasEl = (
             <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center md:w-auto md:justify-start">
-              <Link
-                href={slide.primary.href}
-                className="rounded-md bg-blue px-5 py-3 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
-              >
-                {slide.primary.label}
-              </Link>
+              {slide.primary.download ? (
+                <a
+                  href={slide.primary.href}
+                  download
+                  className="rounded-md bg-blue px-5 py-3 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+                >
+                  {slide.primary.label}
+                </a>
+              ) : (
+                <Link
+                  href={slide.primary.href}
+                  className="rounded-md bg-blue px-5 py-3 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-blue-600"
+                >
+                  {slide.primary.label}
+                </Link>
+              )}
               {slide.secondary && (
                 <Link
                   href={slide.secondary.href}
@@ -217,6 +234,7 @@ export default function HeroCarousel() {
                       <div>
                         {eyebrowEl}
                         {titleEl}
+                        {leadEl}
                         {descEl}
                       </div>
                       <div className="flex flex-col items-center gap-3">
@@ -231,6 +249,7 @@ export default function HeroCarousel() {
                       <div className="text-center md:text-left">
                         {eyebrowEl}
                         {titleEl}
+                        {leadEl}
                         {descEl}
                         {ctasEl}
                       </div>
@@ -247,6 +266,7 @@ export default function HeroCarousel() {
                     <div className="text-center md:text-left">
                       {eyebrowEl}
                       {titleEl}
+                      {leadEl}
                       {descEl}
                       {ctasEl}
                     </div>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import CreateMemberForm from "@/components/admin/create-member-form";
 import { useMembers, useDeleteMember, useCategories } from "@/hooks/use-admin-api";
 import type { MemberResponse } from "@/lib/api";
+import { fileUrl } from "@/lib/public-api";
 import { Panel, EmptyOrList, EditButton, DeleteButton } from "@/components/admin/panel-ui";
 
 export default function MemberPanel() {
@@ -53,7 +54,7 @@ export default function MemberPanel() {
             <div key={m.uuid} className="ui-card flex items-start gap-4 p-4 transition hover:border-blue/30 hover:shadow-md">
               {m.photo ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={m.photo} alt="" className="h-12 w-12 shrink-0 rounded-full object-cover object-top ring-1 ring-border" />
+                <img src={fileUrl(m.photo)} alt="" className="h-12 w-12 shrink-0 rounded-full object-cover object-top ring-1 ring-border" />
               ) : (
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue to-navy text-sm font-semibold text-white">
                   {m.name.charAt(0).toUpperCase()}

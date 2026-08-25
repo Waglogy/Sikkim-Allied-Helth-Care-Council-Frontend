@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/page-header";
 import type { EventResponse } from "@/lib/api";
-import { fetchEvents, eventDateParts } from "@/lib/public-api";
+import { fetchEvents, eventDateParts, fileUrl } from "@/lib/public-api";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -14,8 +14,8 @@ export const revalidate = 60;
 
 function EventCard({ e }: { e: EventResponse }) {
   const { day, month, year, time, isPast } = eventDateParts(e.eventDate);
-  const firstImage = e.images?.[0];
-  const firstDoc = e.documents?.[0];
+  const images = e.images ?? [];
+  const documents = e.documents ?? [];
 
   return (
     <div className="flex gap-4 rounded-xl border border-border bg-white p-4 sm:gap-5 sm:p-6">
@@ -41,19 +41,28 @@ function EventCard({ e }: { e: EventResponse }) {
             </svg>
             {time}
           </span>
-          {firstDoc && (
-            <a href={firstDoc} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 font-medium text-blue hover:underline">
+          {documents.map((doc, i) => (
+            <a key={doc} href={fileUrl(doc)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 font-medium text-blue hover:underline">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                 <path d="M14 2v6h6" />
               </svg>
-              Document
+              {documents.length > 1 ? `Document ${i + 1}` : "Document"}
             </a>
-          )}
+          ))}
         </div>
-        {firstImage && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={firstImage} alt="" className="mt-3 h-28 w-full max-w-xs rounded-lg object-cover ring-1 ring-border" />
+        {images.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {images.map((img) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={img}
+                src={fileUrl(img)}
+                alt={e.name}
+                className="h-28 w-40 rounded-lg object-cover ring-1 ring-border"
+              />
+            ))}
+          </div>
         )}
       </div>
     </div>

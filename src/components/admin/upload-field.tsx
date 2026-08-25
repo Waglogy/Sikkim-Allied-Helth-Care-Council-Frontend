@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { uploadFile, ApiError } from "@/lib/api";
+import { fileUrl } from "@/lib/public-api";
 
 /* -------------------------------------------------------------------------- */
 /*  UploadField — picks file(s), uploads them to the backend (→ R2) and keeps  */
@@ -62,7 +63,7 @@ export default function UploadField({
             <li key={url} className="flex items-center gap-3 rounded-lg border border-border bg-white p-2">
               {IMAGE_RE.test(url) ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={url} alt="" className="h-10 w-10 shrink-0 rounded object-cover ring-1 ring-border" />
+                <img src={fileUrl(url)} alt="" className="h-10 w-10 shrink-0 rounded object-cover ring-1 ring-border" />
               ) : (
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded bg-muted text-navy/50">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -72,7 +73,7 @@ export default function UploadField({
                 </span>
               )}
               <a
-                href={url}
+                href={fileUrl(url)}
                 target="_blank"
                 rel="noreferrer"
                 className="min-w-0 flex-1 truncate text-xs text-navy/70 hover:text-blue hover:underline"

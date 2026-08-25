@@ -5,8 +5,10 @@ import {
   fetchEvents,
   fetchNotifications,
   fetchPublishedMessages,
+  fetchCategories,
   eventDateParts,
   shortDate,
+  fileUrl,
 } from "@/lib/public-api";
 
 // Rebuild the page at most once a minute (ISR) — fast serves, fresh within 60s.
@@ -106,45 +108,6 @@ function messageInitials(title: string) {
       .toUpperCase() || "•"
   );
 }
-
-// Council members — a representative preview; full roster lives on /council-members.
-const chairperson = {
-  name: "Mr. Ramesh Dahal",
-  role: "Chairperson",
-  council: "Sikkim State Allied & Healthcare Council",
-  detail: "Sr. Technical Officer, STNM Multispeciality Hospital, Gangtok",
-  initials: "RD",
-};
-
-const councilMembers = [
-  {
-    name: "Dr. Muralidhar V. Pai",
-    role: "Ex-Officio Member",
-    detail: "Dean, Sikkim Manipal Institute of Medical Sciences, Tadong, Gangtok",
-    initials: "MP",
-  },
-  {
-    name: "Dr. Nikita Joshi",
-    role: "Ex-Officio Member",
-    detail: "Principal, Sikkim Manipal College of Physiotherapy, Gangtok",
-    initials: "NJ",
-  },
-  {
-    name: "Ms. Chokie Lepcha",
-    role: "Member — Medical Laboratory & Life Sciences",
-    detail:
-      "Sr. Medical Lab Technologist, Department of Pathology, STNM Multispeciality Hospital, Gangtok",
-    initials: "CL",
-  },
-  {
-    name: "Dr. Binita Basnet (PT)",
-    role: "Member — Physiotherapy",
-    detail:
-      "Chief Physiotherapist cum HOD, Department of Physiotherapy, STNM Multispeciality Hospital, Gangtok",
-    initials: "BB",
-  },
-];
-
 
 /* --------------------------------- icons ---------------------------------- */
 
@@ -254,12 +217,24 @@ function Icon({ name }: { name: string }) {
 
 export default async function Home() {
   // Homepage previews — full lists live on their dedicated pages.
-  const [allEvents, allNotifications, messages] = await Promise.all([
-    fetchEvents(),
-    fetchNotifications(),
-    fetchPublishedMessages(),
-  ]);
+  const [allEvents, allNotifications, messages, memberCategories] =
+    await Promise.all([
+      fetchEvents(),
+      fetchNotifications(),
+      fetchPublishedMessages(),
+      fetchCategories(),
+    ]);
   const notifications = allNotifications.slice(0, 4);
+
+  // Leadership preview — executive members ordered by priority. The first
+  // (top-priority) is the chairperson shown in the featured card; the rest
+  // fill the grid below. Full roster lives on /council-members.
+  const executiveMembers = memberCategories
+    .filter((c) => c.type === "EXECUTIVE")
+    .sort((a, b) => a.priority - b.priority)
+    .flatMap((c) => c.members);
+  const chairperson = executiveMembers[0];
+  const otherMembers = executiveMembers.slice(1);
   const events = allEvents
     .map((e) => ({ e, meta: eventDateParts(e.eventDate) }))
     .filter((x) => !x.meta.isPast)
@@ -443,7 +418,7 @@ export default async function Home() {
                   {m.photo ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={m.photo}
+                      src={fileUrl(m.photo)}
                       alt={m.title}
                       className="h-20 w-20 rounded-full object-cover object-top ring-1 ring-border"
                     />
@@ -490,46 +465,54 @@ export default async function Home() {
             subtitle="The Sikkim State Allied & Healthcare Council is constituted under the National Commission for Allied and Healthcare Professions Act, 2021. The Council brings together representatives from the State Government, medical and healthcare institutions, and recognised allied and healthcare professional categories to support effective regulation and professional standards across the State."
           />
 
-          {/* Featured — Chairperson */}
-          <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-navy text-white">
-            <div className="flex flex-col items-center gap-6 p-8 text-center sm:flex-row sm:text-left sm:p-10">
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-white/10 text-2xl font-semibold ring-1 ring-white/20">
-                {chairperson.initials}
-              </div>
-              <div>
-                <span className="inline-flex rounded-full bg-blue px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-                  {chairperson.role}
-                </span>
-                <h3 className="mt-3 font-serif text-2xl font-semibold">
-                  {chairperson.name}
-                </h3>
-                <p className="mt-1 text-sm text-white/80">
-                  {chairperson.council}
-                </p>
-                <p className="mt-1 text-sm text-white/60">
-                  {chairperson.detail}
-                </p>
+          {/* Featured — Chairperson (top-priority executive member) */}
+          {chairperson && (
+            <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-navy text-white">
+              <div className="flex flex-col items-center gap-6 p-8 text-center sm:flex-row sm:text-left sm:p-10">
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-white/10 text-2xl font-semibold ring-1 ring-white/20">
+                  {messageInitials(chairperson.name)}
+                </div>
+                <div>
+                  <span className="inline-flex rounded-full bg-blue px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+                    {chairperson.designation}
+                  </span>
+                  <h3 className="mt-3 font-serif text-2xl font-semibold">
+                    {chairperson.name}
+                  </h3>
+                  {chairperson.categoryName && (
+                    <p className="mt-1 text-sm text-white/80">
+                      {chairperson.categoryName}
+                    </p>
+                  )}
+                  {chairperson.description && (
+                    <p className="mt-1 text-sm text-white/60">
+                      {chairperson.description}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
-          {/* Representative members */}
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {councilMembers.map((m) => (
+          {/* Representative members — centered so a partial last row balances. */}
+          <div className="mt-6 flex flex-wrap justify-center gap-6">
+            {otherMembers.map((m) => (
               <div
-                key={m.name}
-                className="rounded-xl border border-border bg-white p-6 text-center"
+                key={m.uuid}
+                className="w-full rounded-xl border border-border bg-white p-6 text-center sm:w-72"
               >
                 <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue to-navy text-lg font-semibold text-white">
-                  {m.initials}
+                  {messageInitials(m.name)}
                 </div>
                 <h3 className="mt-4 text-base font-semibold text-navy">
                   {m.name}
                 </h3>
-                <p className="mt-1 text-xs font-medium text-blue">{m.role}</p>
-                <p className="mt-2 text-xs leading-relaxed text-navy/60">
-                  {m.detail}
-                </p>
+                <p className="mt-1 text-xs font-medium text-blue">{m.designation}</p>
+                {m.description && (
+                  <p className="mt-2 text-xs leading-relaxed text-navy/60">
+                    {m.description}
+                  </p>
+                )}
               </div>
             ))}
           </div>

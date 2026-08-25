@@ -3,14 +3,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { listEvents, listNotifications, listPublications } from "@/lib/api";
 
-/** Shown until the latest items load (or if the backend is unavailable). */
-const DEFAULT_TICKER = [
-  "Registration portal for Allied & Healthcare professionals is now open.",
-  "Notice: Verification of provisional certificates.",
-  "Council's 2nd Foundation Day to be observed on 12 Sep 2026.",
-];
+/** One scrolling item in the "Latest" marquee. */
+type TickerItem = { text: string; href: string };
 
 const primaryLinks = [
   { label: "Home", href: "/" },
@@ -33,30 +28,25 @@ const allLinks = [...primaryLinks, ...moreLinks];
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  const [ticker, setTicker] = useState<string[]>(DEFAULT_TICKER);
+  const [ticker, setTicker] = useState<TickerItem[]>([]);
+  const [notifCount, setNotifCount] = useState(0);
 
-  // Load the latest event / notification / publication titles for the ticker.
+  // Load the live notifications + events for the marquee and nav badge from our
+  // own /api/ticker route (a server-side fetch — reliable, no CORS/localhost).
   useEffect(() => {
     let active = true;
-    Promise.all([
-      listNotifications().catch(() => []),
-      listEvents().catch(() => []),
-      listPublications().catch(() => []),
-    ]).then(([notifications, events, publications]) => {
-      if (!active) return;
-      const items = [
-        ...notifications.slice(0, 4).map((n) => n.title),
-        ...events.slice(0, 4).map((e) => {
-          const d = new Date(e.eventDate);
-          const when = Number.isNaN(d.getTime())
-            ? ""
-            : ` — ${d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}`;
-          return `${e.name}${when}`;
-        }),
-        ...publications.slice(0, 4).map((p) => p.title),
-      ].filter(Boolean);
-      if (items.length) setTicker(items);
-    });
+    fetch("/api/ticker")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!active || !data) return;
+        if (Array.isArray(data.items)) setTicker(data.items);
+        if (typeof data.notificationCount === "number") {
+          setNotifCount(data.notificationCount);
+        }
+      })
+      .catch(() => {
+        // Backend unavailable — leave the ticker empty rather than show nothing stale.
+      });
     return () => {
       active = false;
     };
@@ -133,9 +123,14 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-md px-3 py-2 text-sm font-medium text-navy/80 transition hover:bg-blue-50 hover:text-blue"
+                className="relative rounded-md px-3 py-2 text-sm font-medium text-navy/80 transition hover:bg-blue-50 hover:text-blue"
               >
                 {link.label}
+                {link.href === "/notifications" && notifCount > 0 && (
+                  <span className="absolute right-1 -top-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-600 px-1 text-[10px] font-bold leading-none text-white">
+                    {notifCount > 9 ? "9+" : notifCount}
+                  </span>
+                )}
               </Link>
             ))}
 
@@ -225,9 +220,14 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="rounded-md px-3 py-2.5 text-sm font-medium text-navy/80 transition hover:bg-blue-50 hover:text-blue"
+                  className="flex items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium text-navy/80 transition hover:bg-blue-50 hover:text-blue"
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  {link.href === "/notifications" && notifCount > 0 && (
+                    <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-600 px-1.5 text-[11px] font-bold leading-none text-white">
+                      {notifCount > 9 ? "9+" : notifCount}
+                    </span>
+                  )}
                 </Link>
               ))}
             </div>
@@ -235,27 +235,41 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Notice ticker */}
-      <div className="border-b border-border bg-blue-50">
-        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 md:px-6">
-          <span className="shrink-0 rounded-sm bg-saffron px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
-            Latest
-          </span>
-          <div className="marquee-track overflow-hidden py-2">
-            <div className="animate-marquee flex w-max gap-12 whitespace-nowrap text-xs text-navy/80">
-              {ticker.map((t, i) => (
-                <span key={`a-${i}`}>{t}</span>
-              ))}
-              {/* duplicate for seamless loop */}
-              {ticker.map((t, i) => (
-                <span key={`b-${i}`} aria-hidden>
-                  {t}
-                </span>
-              ))}
+      {/* Notice ticker — only rendered when there are live items to show. */}
+      {ticker.length > 0 && (
+        <div className="border-b border-border bg-blue-50">
+          <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 md:px-6">
+            <span className="shrink-0 rounded-sm bg-saffron px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-white">
+              Latest
+            </span>
+            <div className="marquee-track overflow-hidden py-2">
+              <div className="animate-marquee flex w-max gap-12 whitespace-nowrap text-xs text-navy/80">
+                {ticker.map((t, i) => (
+                  <Link
+                    key={`a-${i}`}
+                    href={t.href}
+                    className="transition hover:text-blue"
+                  >
+                    {t.text}
+                  </Link>
+                ))}
+                {/* duplicate for seamless loop */}
+                {ticker.map((t, i) => (
+                  <Link
+                    key={`b-${i}`}
+                    href={t.href}
+                    aria-hidden
+                    tabIndex={-1}
+                    className="transition hover:text-blue"
+                  >
+                    {t.text}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </header>
   );
 }

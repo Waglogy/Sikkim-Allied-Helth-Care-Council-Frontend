@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/page-header";
-import { fetchNotifications, shortDate } from "@/lib/public-api";
+import { fetchNotifications, shortDate, fileUrl } from "@/lib/public-api";
 
 export const metadata: Metadata = {
   title: "Notifications",
@@ -34,7 +34,7 @@ export default async function NotificationsPage() {
               return (
                 <a
                   key={n.uuid}
-                  href={n.document ?? undefined}
+                  href={hasDoc ? fileUrl(n.document) : undefined}
                   {...(hasDoc ? { target: "_blank", rel: "noreferrer" } : {})}
                   className={`group flex items-start gap-3 p-4 transition sm:gap-4 sm:p-5 ${
                     hasDoc ? "hover:bg-blue-50/60" : ""

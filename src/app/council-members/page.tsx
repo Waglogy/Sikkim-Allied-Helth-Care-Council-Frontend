@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/page-header";
 import type { CategoryResponse, MemberResponse } from "@/lib/api";
+import { fileUrl } from "@/lib/public-api";
 
 export const metadata: Metadata = {
   title: "Council Members",
@@ -53,7 +54,7 @@ function MemberCard({ m }: { m: MemberResponse }) {
       {m.photo ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={m.photo}
+          src={fileUrl(m.photo)}
           alt={m.name}
           className="h-16 w-16 rounded-full object-cover object-top ring-1 ring-border"
         />

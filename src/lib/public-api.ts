@@ -30,6 +30,23 @@ async function getList<T>(path: string): Promise<T[]> {
   }
 }
 
+/**
+ * Turn a stored file reference into an absolute URL the browser can load.
+ *
+ * Uploaded files may be stored either as a full URL (correct) or, for older
+ * records, as a relative path like `/uploads/x.png`. Relative paths would
+ * otherwise resolve against the website origin (404), so we point them back at
+ * the backend, which serves uploads under `/api/files/**`.
+ */
+export function fileUrl(ref?: string | null): string {
+  if (!ref) return "";
+  if (/^https?:\/\//i.test(ref)) return ref; // already absolute
+  let path = ref.startsWith("/") ? ref : `/${ref}`;
+  // The backend only exposes uploads via /api/files/** — normalise bare paths.
+  if (path.startsWith("/uploads/")) path = `/api/files${path}`;
+  return `${BASE}${path}`;
+}
+
 export const fetchEvents = () => getList<EventResponse>("/api/event");
 export const fetchNotifications = () =>
   getList<NotificationResponse>("/api/notification");
