@@ -45,6 +45,10 @@ jobs:
 
           FROM node:20-alpine AS builder
           WORKDIR /app
+          # NEXT_PUBLIC_* vars are inlined at build time, so they must be set
+          # before `next build` runs.
+          ARG NEXT_PUBLIC_API_BASE_URL
+          ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
           COPY --from=deps /app/node_modules ./node_modules
           COPY . .
           RUN npm run build
@@ -68,6 +72,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/arm64 \
+            --build-arg NEXT_PUBLIC_API_BASE_URL=${{ secrets.NEXT_PUBLIC_API_BASE_URL }} \
             --tag sahc-web:latest \
             --output type=docker,dest=sahc-web.tar \
             -f Dockerfile.deploy \
