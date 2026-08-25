@@ -28,7 +28,9 @@ jobs:
   deploy:
     needs: test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
+    # Native ARM64 runner so the image builds without QEMU emulation (Node's
+    # npm ci crashes with "illegal instruction" under emulated arm64).
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -58,9 +60,6 @@ jobs:
           EXPOSE 3005
           CMD ["npm", "run", "start"]
           EOF
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
