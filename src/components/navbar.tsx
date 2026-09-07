@@ -54,6 +54,33 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full">
+      {/* NCAHP strip — always visible (incl. mobile) */}
+      <div className="bg-navy text-white/80 md:hidden">
+        <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-1.5 text-[11px]">
+          <a
+            href="https://ncahp.abdm.gov.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 transition hover:text-white"
+          >
+            National Commission (NCAHP)
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <path d="M7 17 17 7M8 7h9v9" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
       {/* Top utility bar */}
       <div className="hidden bg-navy text-white/80 md:block">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-1.5 text-xs">
@@ -89,6 +116,25 @@ export default function Navbar() {
                 aria-hidden
               >
                 <path d="M7 17 17 7M8 7h9v9" />
+              </svg>
+            </a>
+            <span className="h-3 w-px bg-white/25" />
+            <a
+              href="https://www.facebook.com/people/Sikkim-State-Allied-Healthcare-Council/61576526097867/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              title="Facebook"
+              className="transition hover:text-white"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden
+              >
+                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.988h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12Z" />
               </svg>
             </a>
           </div>

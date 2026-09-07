@@ -81,10 +81,10 @@ export default function GrievancesPage() {
                 </a>{" "}
                 or call{" "}
                 <a
-                  href="tel:+919520616531"
+                  href="tel:+919332369376"
                   className="font-medium text-blue hover:underline"
                 >
-                  +91 95206 16531
+                  +91 93323 69376
                 </a>
                 .
               </p>

@@ -15,7 +15,7 @@ const contactInfo = [
     icon: "pin",
   },
   { label: "Email", value: "info@ssahc.org.in", href: "mailto:info@ssahc.org.in", icon: "mail" },
-  { label: "Phone", value: "+91 95206 16531", href: "tel:+919520616531", icon: "phone" },
+  { label: "Phone", value: "+91 93323 69376", href: "tel:+919332369376", icon: "phone" },
   { label: "Office Hours", value: "Mon – Fri, 10:00 AM – 4:00 PM", icon: "clock" },
 ];
 
