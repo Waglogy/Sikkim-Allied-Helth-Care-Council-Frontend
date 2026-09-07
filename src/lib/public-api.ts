@@ -55,7 +55,9 @@ export const fetchCategories = () => getList<CategoryResponse>("/api/category");
 /** Published messages (dignitary messages / notices) — only public ones. */
 export async function fetchPublishedMessages(): Promise<MessageResponse[]> {
   const all = await getList<MessageResponse>("/api/message");
-  return all.filter((m) => m.publishStatus);
+  return all
+    .filter((m) => m.publishStatus)
+    .sort((a, b) => (a.priority ?? 0) - (b.priority ?? 0));
 }
 
 /* --------------------------------- dates ---------------------------------- */

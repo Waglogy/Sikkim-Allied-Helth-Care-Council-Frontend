@@ -126,6 +126,8 @@ export type CreateMessage = {
   photo?: string;
   fileUpload?: string;
   publishStatus: boolean;
+  /** Lower value = shown first. */
+  priority: number;
   createdBy: string;
 };
 
@@ -137,6 +139,8 @@ export type MessageResponse = {
   photo: string | null;
   fileUpload: string | null;
   publishStatus: boolean;
+  /** Lower value = shown first. */
+  priority: number;
   createdBy: string;
   createdAt: string;
   updatedAt: string;

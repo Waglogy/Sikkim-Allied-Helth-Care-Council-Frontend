@@ -55,6 +55,7 @@ export default function CreateMessageForm({
       photo: photo[0] || undefined,
       fileUpload: file[0] || undefined,
       publishStatus: fd.get("publishStatus") === "on",
+      priority: Number(fd.get("priority") || 0),
       createdBy: editing?.createdBy ?? admin.uuid,
     };
 
@@ -92,6 +93,12 @@ export default function CreateMessageForm({
           Publish date &amp; time <span className="text-navy/40">(optional)</span>
         </label>
         <input type="datetime-local" name="publishDate" defaultValue={toInputDateTime(editing?.publishDate ?? null)} className={field} />
+      </div>
+
+      <div>
+        <label className="ui-label">Display priority</label>
+        <input type="number" name="priority" defaultValue={editing?.priority ?? 0} placeholder="0" className={field} />
+        <p className="mt-1 text-xs text-navy/40">Lower number shows first (e.g. 0 = Chief Minister, 1 = Health Minister).</p>
       </div>
 
       <div>

@@ -17,7 +17,9 @@ import {
 export default function MessagePanel() {
   const query = useMessages();
   const del = useDeleteMessage();
-  const items = query.data ?? [];
+  const items = [...(query.data ?? [])].sort(
+    (a, b) => (a.priority ?? 0) - (b.priority ?? 0)
+  );
   const [editing, setEditing] = useState<MessageResponse | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -73,6 +75,9 @@ export default function MessagePanel() {
                   <p className="mt-1 text-xs leading-relaxed text-navy/60">{m.description}</p>
                 )}
                 <div className="mt-2 flex flex-wrap gap-3 text-[11px] text-navy/50">
+                  <span className="rounded bg-blue-50 px-1.5 py-0.5 font-medium text-blue">
+                    priority {m.priority ?? 0}
+                  </span>
                   <span>publish {fmt(m.publishDate)}</span>
                   {m.fileUpload && <span className="text-blue">has file</span>}
                 </div>
