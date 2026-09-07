@@ -469,9 +469,18 @@ export default async function Home() {
           {chairperson && (
             <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-navy text-white">
               <div className="flex flex-col items-center gap-6 p-8 text-center sm:flex-row sm:text-left sm:p-10">
-                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-white/10 text-2xl font-semibold ring-1 ring-white/20">
-                  {messageInitials(chairperson.name)}
-                </div>
+                {chairperson.photo ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={fileUrl(chairperson.photo)}
+                    alt={chairperson.name}
+                    className="h-24 w-24 shrink-0 rounded-full object-cover object-top ring-1 ring-white/20"
+                  />
+                ) : (
+                  <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-white/10 text-2xl font-semibold ring-1 ring-white/20">
+                    {messageInitials(chairperson.name)}
+                  </div>
+                )}
                 <div>
                   <span className="inline-flex rounded-full bg-blue px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
                     {chairperson.designation}
@@ -501,9 +510,18 @@ export default async function Home() {
                 key={m.uuid}
                 className="w-full rounded-xl border border-border bg-white p-6 text-center sm:w-72"
               >
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue to-navy text-lg font-semibold text-white">
-                  {messageInitials(m.name)}
-                </div>
+                {m.photo ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={fileUrl(m.photo)}
+                    alt={m.name}
+                    className="mx-auto h-20 w-20 rounded-full object-cover object-top ring-1 ring-border"
+                  />
+                ) : (
+                  <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue to-navy text-lg font-semibold text-white">
+                    {messageInitials(m.name)}
+                  </div>
+                )}
                 <h3 className="mt-4 text-base font-semibold text-navy">
                   {m.name}
                 </h3>
