@@ -174,12 +174,16 @@ export type PublicationResponse = {
 export type CreateNotification = {
   title: string;
   document?: string;
+  /** yyyy-MM-dd; backend defaults to today when omitted. */
+  date?: string;
 };
 
 export type NotificationResponse = {
   uuid: string;
   title: string;
   document: string | null;
+  /** Publication date (yyyy-MM-dd). */
+  date: string;
   createdAt: string;
   updatedAt: string;
 };

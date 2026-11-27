@@ -614,7 +614,7 @@ export default async function Home() {
                     <p className="text-sm font-medium text-navy group-hover:text-blue">
                       {n.title}
                     </p>
-                    <p className="mt-1 text-xs text-navy/50">{shortDate(n.createdAt)}</p>
+                    <p className="mt-1 text-xs text-navy/50">{shortDate(n.date)}</p>
                   </div>
                 </Link>
               ))}

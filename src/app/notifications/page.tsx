@@ -49,7 +49,7 @@ export default async function NotificationsPage() {
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium text-navy group-hover:text-blue">{n.title}</p>
                     <p className="mt-1 text-xs text-navy/50">
-                      {shortDate(n.createdAt)}
+                      {shortDate(n.date)}
                       {hasDoc && " · PDF"}
                     </p>
                   </div>

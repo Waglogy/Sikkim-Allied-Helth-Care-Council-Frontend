@@ -8,10 +8,17 @@ export const metadata: Metadata = {
     "Contact the Sikkim State Allied & Healthcare Council for registration, grievances and public information requests.",
 };
 
+// Council office pin (Plus Code 8JW3+W52 Gangtok).
+const MAP_LINK = "https://maps.app.goo.gl/pUGprw5XyTygbXR9A";
+const MAP_EMBED =
+  "https://maps.google.com/maps?q=27.3472654,88.6028906&z=17&output=embed";
+
 const contactInfo = [
   {
     label: "Address",
-    value: "Sikkim State Allied & Healthcare Council, Gangtok, Sikkim — 737101",
+    value:
+      "Sikkim State Allied & Healthcare Council, Old STNM Hospital Complex, NH-10, Lower Sichey, Gangtok, Sikkim — 737101",
+    href: MAP_LINK,
     icon: "pin",
   },
   { label: "Email", value: "info@ssahc.org.in", href: "mailto:info@ssahc.org.in", icon: "mail" },
@@ -101,6 +108,9 @@ export default function ContactPage() {
                     {c.href ? (
                       <a
                         href={c.href}
+                        {...(c.href.startsWith("http")
+                          ? { target: "_blank", rel: "noreferrer" }
+                          : {})}
                         className="text-sm font-medium text-navy transition hover:text-blue break-words"
                       >
                         {c.value}
@@ -111,6 +121,29 @@ export default function ContactPage() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Map */}
+            <div className="mt-6 overflow-hidden rounded-xl border border-border bg-white">
+              <iframe
+                title="Council office location"
+                src={MAP_EMBED}
+                className="block h-64 w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+              <a
+                href={MAP_LINK}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-between px-4 py-3 text-sm font-medium text-blue transition hover:bg-blue-50"
+              >
+                Open in Google Maps
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </a>
             </div>
           </div>
 

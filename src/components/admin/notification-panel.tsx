@@ -4,13 +4,12 @@ import { useState } from "react";
 import CreateNotificationForm from "@/components/admin/create-notification-form";
 import { useNotifications, useDeleteNotification } from "@/hooks/use-admin-api";
 import type { NotificationResponse } from "@/lib/api";
-import { fileUrl } from "@/lib/public-api";
+import { fileUrl, shortDate } from "@/lib/public-api";
 import {
   Panel,
   EmptyOrList,
   EditButton,
   DeleteButton,
-  fmt,
 } from "@/components/admin/panel-ui";
 
 export default function NotificationPanel() {
@@ -64,7 +63,7 @@ export default function NotificationPanel() {
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium text-navy">{n.title}</p>
                 <div className="mt-0.5 flex flex-wrap items-center gap-3 text-[11px] text-navy/50">
-                  <span>created {fmt(n.createdAt)}</span>
+                  <span>dated {shortDate(n.date)}</span>
                   {n.document ? (
                     <a href={fileUrl(n.document)} target="_blank" rel="noreferrer" className="font-medium text-blue hover:underline">
                       View PDF

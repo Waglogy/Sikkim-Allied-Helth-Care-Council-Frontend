@@ -11,6 +11,7 @@ const primaryLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Notifications", href: "/notifications" },
+  { label: "Publications", href: "/publications" },
   { label: "Events", href: "/events" },
   { label: "Council Members", href: "/council-members" },
   { label: "Contact", href: "/contact" },
@@ -30,6 +31,7 @@ export default function Navbar() {
   const [moreOpen, setMoreOpen] = useState(false);
   const [ticker, setTicker] = useState<TickerItem[]>([]);
   const [notifCount, setNotifCount] = useState(0);
+  const [pubCount, setPubCount] = useState(0);
 
   // Load the live notifications + events for the marquee and nav badge from our
   // own /api/ticker route (a server-side fetch — reliable, no CORS/localhost).
@@ -43,6 +45,9 @@ export default function Navbar() {
         if (typeof data.notificationCount === "number") {
           setNotifCount(data.notificationCount);
         }
+        if (typeof data.publicationCount === "number") {
+          setPubCount(data.publicationCount);
+        }
       })
       .catch(() => {
         // Backend unavailable — leave the ticker empty rather than show nothing stale.
@@ -51,6 +56,10 @@ export default function Navbar() {
       active = false;
     };
   }, []);
+
+  // Count shown as a red badge next to a nav link (0 = no badge).
+  const badgeCount = (href: string) =>
+    href === "/notifications" ? notifCount : href === "/publications" ? pubCount : 0;
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -172,9 +181,9 @@ export default function Navbar() {
                 className="relative rounded-md px-3 py-2 text-sm font-medium text-navy/80 transition hover:bg-blue-50 hover:text-blue"
               >
                 {link.label}
-                {link.href === "/notifications" && notifCount > 0 && (
+                {badgeCount(link.href) > 0 && (
                   <span className="absolute right-1 -top-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-red-600 px-1 text-[10px] font-bold leading-none text-white">
-                    {notifCount > 9 ? "9+" : notifCount}
+                    {badgeCount(link.href) > 9 ? "9+" : badgeCount(link.href)}
                   </span>
                 )}
               </Link>
@@ -269,9 +278,9 @@ export default function Navbar() {
                   className="flex items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium text-navy/80 transition hover:bg-blue-50 hover:text-blue"
                 >
                   <span>{link.label}</span>
-                  {link.href === "/notifications" && notifCount > 0 && (
+                  {badgeCount(link.href) > 0 && (
                     <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-red-600 px-1.5 text-[11px] font-bold leading-none text-white">
-                      {notifCount > 9 ? "9+" : notifCount}
+                      {badgeCount(link.href) > 9 ? "9+" : badgeCount(link.href)}
                     </span>
                   )}
                 </Link>

@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
-import { fetchNotifications, fetchEvents, shortDate } from "@/lib/public-api";
+import {
+  fetchNotifications,
+  fetchEvents,
+  fetchPublishedPublications,
+  shortDate,
+} from "@/lib/public-api";
 
 /* -------------------------------------------------------------------------- */
 /*  GET /api/ticker                                                            */
 /*                                                                            */
 /*  Aggregates the latest notifications + events into the strings shown in the */
-/*  navbar marquee, plus the notification count for the nav badge.            */
+/*  navbar marquee, plus the notification / publication counts for nav badges. */
 /*                                                                            */
 /*  This runs SERVER-SIDE, so it reaches the backend directly without the      */
 /*  CORS / localhost issues a browser fetch hits. The underlying helpers cache */
@@ -13,9 +18,10 @@ import { fetchNotifications, fetchEvents, shortDate } from "@/lib/public-api";
 /* -------------------------------------------------------------------------- */
 
 export async function GET() {
-  const [notifications, events] = await Promise.all([
+  const [notifications, events, publications] = await Promise.all([
     fetchNotifications(),
     fetchEvents(),
+    fetchPublishedPublications(),
   ]);
 
   const items = [
@@ -35,5 +41,6 @@ export async function GET() {
   return NextResponse.json({
     items,
     notificationCount: notifications.length,
+    publicationCount: publications.length,
   });
 }

@@ -10,10 +10,16 @@ import UploadField from "@/components/admin/upload-field";
 
 /* -------------------------------------------------------------------------- */
 /*  Notification form — create (POST) or edit (PUT /api/notification/{uuid}).   */
-/*  A notification is just a title plus an optional PDF document.               */
+/*  A notification is a title, a publication date and an optional PDF.          */
 /* -------------------------------------------------------------------------- */
 
 const field = "ui-input";
+
+/** Today as yyyy-MM-dd in local time (what <input type="date"> expects). */
+function today() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
 
 export default function CreateNotificationForm({
   editing,
@@ -38,6 +44,7 @@ export default function CreateNotificationForm({
     const payload = {
       title: String(fd.get("title") || "").trim(),
       document: document[0] || undefined,
+      date: String(fd.get("date") || "") || undefined,
     };
 
     const saved = isEdit
@@ -59,6 +66,18 @@ export default function CreateNotificationForm({
         <label className="ui-label">Title</label>
         <input required name="title" defaultValue={editing?.title} placeholder="Verification schedule for provisional certificates" className={field} />
         {fieldErrors.title && <p className="mt-1 text-xs text-red-600">{fieldErrors.title}</p>}
+      </div>
+
+      <div>
+        <label className="ui-label">Date</label>
+        <input
+          required
+          type="date"
+          name="date"
+          defaultValue={editing?.date ?? today()}
+          className={field}
+        />
+        {fieldErrors.date && <p className="mt-1 text-xs text-red-600">{fieldErrors.date}</p>}
       </div>
 
       <div>

@@ -3,6 +3,7 @@ import type {
   NotificationResponse,
   CategoryResponse,
   MessageResponse,
+  PublicationResponse,
 } from "@/lib/api";
 
 /* -------------------------------------------------------------------------- */
@@ -58,6 +59,14 @@ export async function fetchPublishedMessages(): Promise<MessageResponse[]> {
   return all
     .filter((m) => m.publishStatus)
     .sort((a, b) => (a.priority ?? 0) - (b.priority ?? 0));
+}
+
+/** Published publications only — newest publish date (or creation) first. */
+export async function fetchPublishedPublications(): Promise<PublicationResponse[]> {
+  const all = await getList<PublicationResponse>("/api/publication");
+  const when = (p: PublicationResponse) =>
+    new Date(p.publishDate ?? p.createdAt).getTime() || 0;
+  return all.filter((p) => p.publishStatus).sort((a, b) => when(b) - when(a));
 }
 
 /* --------------------------------- dates ---------------------------------- */

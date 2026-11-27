@@ -6,6 +6,7 @@ const quickLinks = [
   { label: "About the Council", href: "/about" },
   { label: "Recognised Categories", href: "/recognised-categories" },
   { label: "Notifications", href: "/notifications" },
+  { label: "Publications", href: "/publications" },
   { label: "Events", href: "/events" },
   { label: "Council Members", href: "/council-members" },
   { label: "Contact", href: "/contact" },
@@ -16,7 +17,7 @@ const resources = [
 
   { label: "Acts & Rules", href: "/about" },
   { label: "Grievance Redressal", href: "/grievances" },
-  { label: "Downloads", href: "/notifications" },
+  { label: "Downloads", href: "/publications" },
 ];
 
 const socialLinks = [
@@ -154,7 +155,18 @@ export default function Footer() {
               <p>
                 Sikkim State Allied &amp; Healthcare Council,
                 <br />
-                Gangtok, Sikkim — 737101
+                Old STNM Hospital Complex, NH-10,
+                <br />
+                Lower Sichey, Gangtok, Sikkim — 737101
+                <br />
+                <a
+                  href="https://maps.app.goo.gl/pUGprw5XyTygbXR9A"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-1 inline-block text-white/90 underline underline-offset-2 hover:text-white"
+                >
+                  View on map
+                </a>
               </p>
               <p>
                 <a href="mailto:info@ssahc.org.in" className="hover:text-white">
