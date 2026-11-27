@@ -17,7 +17,7 @@ const contactInfo = [
   {
     label: "Address",
     value:
-      "Sikkim State Allied & Healthcare Council, Old STNM Hospital Complex, NH-10, Lower Sichey, Gangtok, Sikkim — 737101",
+      "Sikkim State Allied & Healthcare Council, New STNM Hospital Complex, NH-10, Lower Sichey, Gangtok, Sikkim — 737101",
     href: MAP_LINK,
     icon: "pin",
   },

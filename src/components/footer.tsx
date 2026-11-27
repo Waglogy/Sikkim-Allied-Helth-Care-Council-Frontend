@@ -155,7 +155,7 @@ export default function Footer() {
               <p>
                 Sikkim State Allied &amp; Healthcare Council,
                 <br />
-                Old STNM Hospital Complex, NH-10,
+                New STNM Hospital Complex, NH-10,
                 <br />
                 Lower Sichey, Gangtok, Sikkim — 737101
                 <br />
